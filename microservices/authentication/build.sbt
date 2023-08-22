@@ -26,8 +26,8 @@ libraryDependencySchemes += "com.softwaremill.sttp.apispec" %% "openapi-model" %
 libraryDependencySchemes += "com.softwaremill.sttp.apispec" %% "apispec-model" % "early-semver"
 
 val zioVersion = "2.0.15"
-val zioHttpVersion = "0.0.4"
-val tapirVersion = "1.2.10"
+val zioHttpVersion = "3.0.0-RC2"
+val tapirVersion = "1.7.2"
 
 val zioDependencies = Seq(
   "dev.zio" %% "zio" % zioVersion,

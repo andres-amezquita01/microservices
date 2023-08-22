@@ -42,12 +42,15 @@ object Main extends ZIOAppDefault with DI:
         OpenAPIGenerator().getDocs()
       )
 
+  private val app: App[Any] = 
+    Http.collect[Request] {
+      case Method.GET -> Root / "text" => Response.text("Hello World!")
+    }
+
   override def run: URIO[Any, ExitCode] =
     Server
       .serve(routes.withDefaultErrorResponse)
       .provide(
-        ServerConfig
-          .live(ServerConfig.default.port(8090)),
-          Server.live
+          Server.defaultWithPort(8090)
       ).exitCode
   end run
