@@ -27,12 +27,13 @@ libraryDependencySchemes += "com.softwaremill.sttp.apispec" %% "apispec-model" %
 
 val zioVersion = "2.0.15"
 val zioHttpVersion = "3.0.0-RC2"
+val zioLoggingVersion = "2.1.14"
 val tapirVersion = "1.7.2"
 
 val zioDependencies = Seq(
   "dev.zio" %% "zio" % zioVersion,
   "dev.zio" %% "zio-http" % zioHttpVersion,
-  "dev.zio" %% "zio-logging" % "2.1.12"
+  "dev.zio" %% "zio-logging" % zioLoggingVersion
 )
 
 val tapirDependencies = Seq(
