@@ -1,0 +1,6 @@
+package category_products
+
+import category_products.infrastructure.repository.CategoryProductRepositoryImpl
+import shared.BaseMockedRepository
+
+class CategoryProductsMockedRepository extends CategoryProductRepositoryImpl with BaseMockedRepository
