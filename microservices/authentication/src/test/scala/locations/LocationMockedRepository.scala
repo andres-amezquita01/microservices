@@ -1,7 +1,0 @@
-package locations
-
-import locations.infrastructure.repository.LocationRepositoryImpl
-import io.getquill._
-import shared.BaseMockedRepository
-
-class LocationMockedRepository extends LocationRepositoryImpl with BaseMockedRepository

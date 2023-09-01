@@ -1,6 +1,0 @@
-package product_lots
-import product_lots.infrastructure.repository.ProductLotRepositoryImpl
-import shared.BaseRepository
-import shared.BaseMockedRepository
-
-class ProductLotMockedRepository extends ProductLotRepositoryImpl with BaseMockedRepository
