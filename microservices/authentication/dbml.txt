@@ -1,10 +1,12 @@
 Table "AGENTS" {
-  "id" INT [pk, increment]
-  "person_type" VARCHAR(30) [not null]
+  "id" UUID [pk, default: `gen_random_uuid()`]
+  "identification_code" TEXT
   "name" TEXT [not null]
-  "last_name" TEXT [not null]
-  "phone" VARCHAR(20) [not null]
-  "email" EMAIL [not null]
+  "last_name" TEXT
+  "phone" VARCHAR(20)
+  "email" VARCHAR(254) [not null]
+  "created_at" TIMESTAMP [not null, default: `now()`]
+  "updated_at" TIMESTAMP [not null, default: `now()`]
 }
 
 Table "ROLES" {
@@ -16,18 +18,20 @@ Table "ROLES" {
 }
 
 Table "USERS" {
-  "id" INT [pk, increment]
-  "username" VARCHAR(45) [unique, not null]
-  "password" VARCHAR(45) [not null]
+  "id" UUID [pk, default: `gen_random_uuid()`]
+  "username" VARCHAR(45) [unique]
+  "password" VARCHAR(45) 
   "description" TEXT
   "source" TEXT
-  "agent_id" INT
-  "external_id" INT
+  "agent_id" UUID
+  "external_id" TEXT
+  "created_at" TIMESTAMP [not null, default: `now()`]
+  "updated_at" TIMESTAMP [not null, default: `now()`]
 }
 
 Table "USER_ROLES" {
   "role_id" INT [not null]
-  "user_id" INT [not null]
+  "user_id" UUID [not null]
 }
 
 Table "PERMISSIONS" {
@@ -37,27 +41,6 @@ Table "PERMISSIONS" {
   "role_id" INT [not null]
   "created_at" TIMESTAMP [not null, default: `now()`]
   "updated_at" TIMESTAMP [not null, default: `now()`]
-}
-
-Enum MeasureUnit {
-  METER
-  KILOGRAM
-  POUND
-  UNIT
-  LITER
-}
-
-Enum PersonType {
-  NATURAL
-  LEGAL
-}
-
-Enum DocumentType {
-  CITIZENSHIP_CARD
-  IDENTITY_CARD
-  PASSPORT
-  FOREIGN_CARD
-  NIT
 }
 
 Ref "fk_USERS_AGENT1":"AGENTS"."id" - "USERS"."agent_id" [update: no action, delete: no action]
