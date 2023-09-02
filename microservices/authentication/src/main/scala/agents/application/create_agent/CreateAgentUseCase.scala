@@ -1,4 +1,4 @@
-package agents.application.create_client
+package agents.application.create_agent
 
 import shared.application.BaseUseCase
 import zio._
@@ -6,13 +6,13 @@ import agents.domain.repository.AgentRepository
 import agents.domain.entity.Agent
 import java.util.UUID
 
-class CreateClientUseCase
-(using agentRepository:AgentRepository)
-extends BaseUseCase[RequestCreateClient, ResponseCreateClient]:
+class CreateAgentUseCase (
+  using agentRepository:AgentRepository
+) extends BaseUseCase[RequestCreateAgent, ResponseCreateAgent]:
 
-  private val EMPTY_AGENT_ID = UUID.fromString("")
+  private val EMPTY_AGENT_ID = UUID.randomUUID
 
-  override def execute(request: RequestCreateClient): Task[ResponseCreateClient] = 
+  override def execute(request: RequestCreateAgent): Task[ResponseCreateAgent] = 
     ZIO.succeed {
       agentRepository.insertAgent(
         Agent (
@@ -24,4 +24,4 @@ extends BaseUseCase[RequestCreateClient, ResponseCreateClient]:
           email = request.email
         )
       )
-    }.map(ResponseCreateClient.apply)
+    }.map(ResponseCreateAgent.apply)
