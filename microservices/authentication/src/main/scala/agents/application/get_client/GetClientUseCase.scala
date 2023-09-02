@@ -4,13 +4,15 @@ import shared.application.BaseUseCase
 import zio._
 import agents.domain.repository.AgentRepository
 
-class GetClientUseCase 
-(using agentRepository:AgentRepository)
-extends BaseUseCase[RequestGetClient, ResponseGetClient]:
+class GetClientUseCase (
+  using agentRepository:AgentRepository
+) extends BaseUseCase[RequestGetClient, ResponseGetClient]:
 
   override def execute(request: RequestGetClient): Task[ResponseGetClient] =
-    ZIO.succeed {
-      agentRepository.getAgent(request.clientId) match
-        case Some(value) => ZIO.succeed(ResponseGetClient(value))
-        case None => ZIO.fail(new Throwable("Can't find client"))
-    }.flatten
+    ZIO.fromOption(request match {
+      case RequestGetClient(Some(id), _, _) => agentRepository.getAgent(id)
+      case RequestGetClient(_, Some(identificationCode), _) => agentRepository.getAgentByIdentificationCode(identificationCode)
+      case RequestGetClient(_, _, Some(email)) => agentRepository.getAgentByEmail(email)
+      case _ => None
+    }).mapError(_ => new Throwable("Can't find Agent"))
+      .map(ResponseGetClient(_))

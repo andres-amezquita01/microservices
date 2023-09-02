@@ -14,10 +14,10 @@ class AuthorizationRepositoryImpl extends AuthorizationRepository with BaseRepos
 
   import ctx._
 
-  override def getPermissionContextOfUser(userId: Long): PermissionContext =
+  override def getPermissionContextOfUser(userId: String): PermissionContext =
     PermissionContext(permissions = List())
 
-  override def getRolesOfUser(userId:Long): List[Role] = 
+  override def getRolesOfUser(userId: String): List[Role] = 
     val q = quote {
       for 
         userRoles <- query[UserRole].filter(_.userId == lift(userId))

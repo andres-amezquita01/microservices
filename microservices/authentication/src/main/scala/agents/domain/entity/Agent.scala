@@ -1,11 +1,12 @@
 package agents.domain.entity
 
+import java.time.Instant
+
 case class Agent (
-  idDocument: Long,
-  documentType: String,
-  personType: String,
+  id: String,
+  identificationCode: Option[String],
   name: String,
-  lastName: String,
-  phone: String,
-  email:String
+  lastName: Option[String],
+  phone: Option[String],
+  email: String
 )

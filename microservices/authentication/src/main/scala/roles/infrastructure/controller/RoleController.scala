@@ -47,7 +47,8 @@ extends BaseController:
     getRole.serverLogic { (user:UserContext, permission:PermissionContext) => (id: Long) =>
       GetRoleUseCase().execute(
         RequestGetRole(id)
-      ).mapError(e => ErrorResponse(message = "Can't find Role"))
+      )
+      .mapError(throwableErrorMapper)
     }.expose
 
   private val getRoles =
@@ -66,7 +67,7 @@ extends BaseController:
       GetRolesUseCase().execute(
         RequestGetRoles(page, perPage)
       )
-      .mapError(e => ErrorResponse(message = "Can't get Roles"))
+      .mapError(throwableErrorMapper)
     }.expose
 
   private val removeRole =
@@ -82,7 +83,7 @@ extends BaseController:
       RemoveRoleUseCase().execute(
         RequestRemoveRole(id)
       )
-      .mapError(e => ErrorResponse(message = "Can't delete the role"))
+      .mapError(throwableErrorMapper)
     }.expose
 
   private val createRole =
@@ -99,7 +100,7 @@ extends BaseController:
       CreateRoleUseCase().execute(
         request
       )
-      .mapError(e => ErrorResponse(message = "Can't createthe role"))
+      .mapError(throwableErrorMapper)
     }
 
   private val updateRole =
@@ -116,21 +117,21 @@ extends BaseController:
       UpdateRoleUseCase(id).execute(
         request
       )
-      .mapError(e => ErrorResponse(message = "Can't update Role"))
+      .mapError(throwableErrorMapper)
     }.expose
 
   private val setRoleToUser =
     secureEndpoint
-    .in(routeName / path[Long]("role_id") / "set-to" / path[Long]("id_document"))
+    .in(routeName / path[Long]("role_id") / "set-to" / path[String]("user_id"))
     .post
     .errorOutVariant[ApplicationError](oneOfVariant(jsonBody[ErrorResponse]))
     .out(jsonBody[ResponseSetRoleToUser])
     .exposeSecure
 
   private val setRoleToUserRoute =
-    setRoleToUser.serverLogic{ (user:UserContext, permission: PermissionContext) => (roleId:Long, idDocument:Long) =>
+    setRoleToUser.serverLogic{ (user:UserContext, permission: PermissionContext) => (roleId:Long, userId:String) =>
       SetRoleToUserUseCase().execute(
-        RequestSetRoleToUser(roleId, idDocument)
+        RequestSetRoleToUser(roleId, userId)
       )
-      .mapError(e => ErrorResponse(message = "Can't set role to user"))
+      .mapError(throwableErrorMapper)
     }.expose

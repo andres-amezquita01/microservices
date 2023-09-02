@@ -10,5 +10,5 @@ extends BaseUseCase[RequestRemoveClient, ResponseRemoveClient]:
 
   override def execute(request: RequestRemoveClient): Task[ResponseRemoveClient] = 
     ZIO.succeed {
-      agentRepository.removeAgent(request.clientId)
+      agentRepository.removeAgent(request.id)
     }.map(ResponseRemoveClient.apply)

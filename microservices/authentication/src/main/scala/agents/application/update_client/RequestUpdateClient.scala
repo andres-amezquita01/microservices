@@ -1,11 +1,9 @@
 package agents.application.update_client
 
 case class RequestUpdateClient (
-  document: Long, 
-  documentType: String,
-  personType: String,
+  identificationCode: String, 
   name: String,
-  lastName: String,
-  phone: String,
+  lastName: Option[String],
+  phone: Option[String],
   email: String
 )

@@ -45,7 +45,7 @@ extends BaseController:
     getPermissions.serverLogic { (user:UserContext, permission:PermissionContext) => (page: Int, perPage: Int) =>
       GetPermissionsUseCase()
         .execute(RequestGetPermissions(page, perPage))
-        .mapError(e => ErrorResponse(message = "Can't get Permissions"))
+        .mapError(throwableErrorMapper)
     }.expose
 
   private val removePermission =
@@ -61,11 +61,7 @@ extends BaseController:
       RemovePermissionUseCase().execute(
         RequestRemovePermission(id)
       )
-      .mapError(e =>
-        ErrorResponse(
-          message = "Can't delete permission", detail = Some(e.getMessage())
-        )
-      )
+      .mapError(throwableErrorMapper)
     }.expose
 
   private val createPermission =
@@ -82,11 +78,7 @@ extends BaseController:
       CreatePermissionUseCase().execute(
         request
       )
-      .mapError(e =>
-        ErrorResponse(
-          message = "Can't create permission", detail = Some(e.getMessage())
-        )
-      )
+      .mapError(throwableErrorMapper)
     }.expose
 
   private val updatePermission =
@@ -103,7 +95,5 @@ extends BaseController:
       UpdatePermissionUseCase(id).execute(
         request
       )
-      .mapError(e =>
-        ErrorResponse(message = "Can't update Permission", detail = Some(e.getMessage()))
-      )
+      .mapError(throwableErrorMapper)
     }.expose

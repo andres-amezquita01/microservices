@@ -9,13 +9,14 @@ class CreateClientUseCase
 (using agentRepository:AgentRepository)
 extends BaseUseCase[RequestCreateClient, ResponseCreateClient]:
 
+  private val EMPTY_AGENT_ID = ""
+
   override def execute(request: RequestCreateClient): Task[ResponseCreateClient] = 
     ZIO.succeed {
       agentRepository.insertAgent(
         Agent (
-          idDocument = request.document, 
-          documentType = request.documentType,
-          personType = request.personType,
+          id = EMPTY_AGENT_ID,
+          identificationCode = Some(request.identificationCode),
           name = request.name,
           lastName = request.lastName,
           phone = request.phone,

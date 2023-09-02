@@ -5,17 +5,16 @@ import zio._
 import agents.domain.repository.AgentRepository
 import agents.domain.entity.Agent
 
-class UpdateClientUseCase(agentId: Long)
-(using agentRepository:AgentRepository)
-extends BaseUseCase[RequestUpdateClient, ResponseUpdateClient]:
+class UpdateClientUseCase(agentId: String) (
+  using agentRepository:AgentRepository
+) extends BaseUseCase[RequestUpdateClient, ResponseUpdateClient]:
 
   override def execute(request: RequestUpdateClient): Task[ResponseUpdateClient] = 
     ZIO.succeed {
       agentRepository.updateAgent(
         Agent (
-          idDocument = request.document, 
-          documentType = request.documentType,
-          personType = request.personType,
+          id = agentId, 
+          identificationCode = Some(request.identificationCode),
           name = request.name,
           lastName = request.lastName,
           phone = request.phone,

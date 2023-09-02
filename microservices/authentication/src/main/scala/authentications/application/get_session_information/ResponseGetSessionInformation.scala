@@ -5,8 +5,8 @@ import permissions.domain.entity.Permission
 
 case class ResponseGetSessionInformation (
   name: String,
-  lastname: String,
-  username: String,
+  lastname: Option[String],
+  username: Option[String],
   roles: List[Role],
   permissions: List[Permission], 
 )

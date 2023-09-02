@@ -10,8 +10,8 @@ extends BaseUseCase[RequestGetUsers, ResponseGetUsers]:
 
   override def execute(request: RequestGetUsers): Task[ResponseGetUsers] =
     for
-      users <- ZIO.succeed(authenticationRepository.getUsers(request.from, request.to))
-      total <- ZIO.succeed(authenticationRepository.getTotalAmountOfUsers())
+      users <- ZIO.attempt(authenticationRepository.getUsers(request.from, request.to))
+      total <- ZIO.attempt(authenticationRepository.getTotalAmountOfUsers())
     yield(
       ResponseGetUsers(
         data = users.map(UserAgentInformation.apply),

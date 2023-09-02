@@ -30,8 +30,8 @@ CREATE TABLE USERS (
   "username" VARCHAR(45) UNIQUE,
   "password" VARCHAR(45),
   "description" TEXT,
-  "source" TEXT,
-  "agent_id" UUID,
+  "source" TEXT NOT NULL,
+  "agent_id" UUID NOT NULL,
   "external_id" TEXT,
   "created_at" TIMESTAMP NOT NULL DEFAULT (now()),
   "updated_at" TIMESTAMP NOT NULL DEFAULT (now())

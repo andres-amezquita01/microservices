@@ -5,7 +5,8 @@ import agents.domain.entity.Agent
 
 case class ResponseCreateUser (
   username: String,
-  document: Long, 
-  email:String,
+  agentId: String, 
+  userId: String, 
+  email: String,
   status: String = "User created successfully"
 )

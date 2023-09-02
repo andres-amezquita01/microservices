@@ -1,11 +1,13 @@
 package authentications.domain.entity
 
 case class User (
-  id:Long = -1,
-  username: String,
-  password: String = "",
+  id: String,
+  username: Option[String],
+  password: Option[String],
   description: Option[String],
-  agentId: Long
+  source: String,
+  agentId: String,
+  externalId: Option[String]
 ){
   def getUserContext():UserContext =
     UserContext(

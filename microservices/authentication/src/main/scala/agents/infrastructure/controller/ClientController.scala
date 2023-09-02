@@ -44,37 +44,42 @@ extends BaseController:
       GetClientsUseCase().execute(
         RequestGetClients(page, perPage) 
       )
-      .mapError(e => ErrorResponse(message="Can't get agents"))
+      .mapError(throwableErrorMapper)
     }.expose
 
   private val getClient = 
     secureEndpoint
-    .in("clients" / path[Long]("id"))
+    .in("client")
     .get
+    .in(
+      query[Option[String]]("id").and(query[Option[String]]("identificationCode")).and(query[Option[String]]("email"))
+    )
     .errorOutVariant[ApplicationError](oneOfVariant(jsonBody[ErrorResponse]))
     .out(jsonBody[ResponseGetClient])
     .exposeSecure
 
   private val getClientRoute: ZServerEndpoint[Any, Any] =
-    getClient.serverLogic{ (user:UserContext, permission:PermissionContext) => (id:Long) =>
+    getClient.serverLogic{ (user:UserContext, permission:PermissionContext) => (id:Option[String], identificationCode:Option[String], email:Option[String]) =>
       GetClientUseCase().execute(
-          RequestGetClient(id)
-      ).mapError(e => ErrorResponse(message="Can't find client"))
+          RequestGetClient(id = id, identificationCode = identificationCode, email = email)
+      ) 
+      .mapError(throwableErrorMapper)
     }.expose
 
   private val removeClient = 
     secureEndpoint
-    .in("clients" / path[Long]("id"))
+    .in("clients" / path[String]("id"))
     .delete
     .errorOutVariant[ApplicationError](oneOfVariant(jsonBody[ErrorResponse]))
     .out(jsonBody[ResponseRemoveClient])
     .exposeSecure
 
   private val removeClientRoute: ZServerEndpoint[Any, Any] =
-    removeClient.serverLogic{ (user:UserContext, permission:PermissionContext) => (id:Long) =>
+    removeClient.serverLogic{ (user:UserContext, permission:PermissionContext) => (id:String) =>
       RemoveClientUseCase().execute(
           RequestRemoveClient(id)
-      ).mapError(e => ErrorResponse(message="Can't remove client"))
+      )
+      .mapError(throwableErrorMapper)
     }.expose
 
   private val createClient = 
@@ -90,12 +95,13 @@ extends BaseController:
     createClient.serverLogic{ (user:UserContext, permission:PermissionContext) => request =>
       CreateClientUseCase().execute(
         request
-      ).mapError(e => ErrorResponse(message="Can't create client"))
+      )
+      .mapError(throwableErrorMapper)
     }.expose
 
   private val updateClient = 
     secureEndpoint
-    .in("clients" / path[Long]("id"))
+    .in("clients" / path[String]("id"))
     .put
     .in(jsonBody[RequestUpdateClient])
     .errorOutVariant[ApplicationError](oneOfVariant(jsonBody[ErrorResponse]))
@@ -103,9 +109,10 @@ extends BaseController:
     .exposeSecure
 
   private val updateClientRoute: ZServerEndpoint[Any, Any] =
-    updateClient.serverLogic{ (user:UserContext, permission:PermissionContext) => (id: Long, request: RequestUpdateClient) =>
+    updateClient.serverLogic{ (user:UserContext, permission:PermissionContext) => (id: String, request: RequestUpdateClient) =>
       UpdateClientUseCase(id).execute(
         request
-      ).mapError(e => ErrorResponse(message="Can't update client"))
+      )
+      .mapError(throwableErrorMapper)
     }.expose
 
