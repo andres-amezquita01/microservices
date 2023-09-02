@@ -7,8 +7,8 @@ case class PaginatedResponse[A](
   
 case class Meta (
     currentPage: Int,
-    lastPage: Int,
+    lastPage: Long,
     from: Int,
-    to: Int,
+    to: Long,
     total: Long
 ) 

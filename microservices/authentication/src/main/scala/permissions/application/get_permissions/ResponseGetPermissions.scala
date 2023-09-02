@@ -11,9 +11,9 @@ sealed class ResponseGetPermissions (
   data,
   Meta(
     currentPage = request.page,
-    lastPage = request.page,
-    from = request.page,
-    to = request.page,
+    lastPage = request.getLastPage(total),
+    from = request.from,
+    to = request.getTo(total),
     total = total
   )
 )
