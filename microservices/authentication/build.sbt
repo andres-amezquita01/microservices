@@ -28,7 +28,7 @@ libraryDependencySchemes += "com.softwaremill.sttp.apispec" %% "apispec-model" %
 val zioVersion = "2.0.15"
 val zioHttpVersion = "3.0.0-RC2"
 val zioLoggingVersion = "2.1.14"
-val tapirVersion = "1.7.2"
+val tapirVersion = "1.7.3"
 
 val zioDependencies = Seq(
   "dev.zio" %% "zio" % zioVersion,
@@ -40,7 +40,8 @@ val tapirDependencies = Seq(
   "com.softwaremill.sttp.tapir" %% "tapir-zio" % tapirVersion,
   "com.softwaremill.sttp.tapir" %% "tapir-zio-http-server" % tapirVersion,
   "com.softwaremill.sttp.tapir" %% "tapir-json-circe" % tapirVersion,
-  "com.softwaremill.sttp.tapir" %% "tapir-swagger-ui-bundle" % tapirVersion 
+  "com.softwaremill.sttp.tapir" %% "tapir-swagger-ui-bundle" % tapirVersion ,
+  "com.softwaremill.sttp.tapir" %% "tapir-sttp-stub-server" % tapirVersion
 )
 
 val testingDependencies = Seq(

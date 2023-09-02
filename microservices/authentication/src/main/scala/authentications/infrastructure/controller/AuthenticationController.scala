@@ -34,9 +34,9 @@ class AuthenticationController()
   authenticationRepository: AuthenticationRepository, 
   authorizationRepository: AuthorizationRepository,
   agentRepository: AgentRepository,
-)extends BaseController:
+) extends BaseController:
 
-  private val loginUser:PublicEndpoint[RequestLoginUser, ErrorResponse,ResponseLoginUser, Any] =
+  val loginUser:PublicEndpoint[RequestLoginUser, ErrorResponse,ResponseLoginUser, Any] =
     endpoint
     .in("login")
     .in(jsonBody[RequestLoginUser])
@@ -45,13 +45,13 @@ class AuthenticationController()
     .out(jsonBody[ResponseLoginUser])
     .expose
 
-  private val loginUserRoute: ZServerEndpoint[Any, Any] = loginUser.zServerLogic { request =>
+  val loginUserRoute: ZServerEndpoint[Any, Any] = loginUser.zServerLogic { request =>
     LoginUserUseCase()
       .execute(request) 
       .mapError(e => ErrorResponse(message="Can't Login"))
   }.expose
 
-  private val createUser: PublicEndpoint[RequestCreateUser, ErrorResponse, ResponseCreateUser, Any] =
+  val createUser: PublicEndpoint[RequestCreateUser, ErrorResponse, ResponseCreateUser, Any] =
     endpoint
       .in("signup")
       .in(jsonBody[RequestCreateUser])
@@ -60,13 +60,13 @@ class AuthenticationController()
       .out(jsonBody[ResponseCreateUser])
       .expose
 
-  private val createUserRoute:ZServerEndpoint[Any, Any] = createUser.zServerLogic { request => 
+  val createUserRoute:ZServerEndpoint[Any, Any] = createUser.zServerLogic { request => 
       CreateUserUseCase()
         .execute(request) 
         .mapError(e => ErrorResponse(message="Can't create user"))
   }.expose
 
-  private val getSessionInformation = 
+  val getSessionInformation = 
     secureEndpoint
     .in("session-info")
     .get
@@ -74,7 +74,7 @@ class AuthenticationController()
     .out(jsonBody[ResponseGetSessionInformation])
     .exposeSecure
 
-  private val getSessionInformationRoute:ZServerEndpoint[Any, Any] = 
+  val getSessionInformationRoute:ZServerEndpoint[Any, Any] = 
     getSessionInformation.serverLogic{ (user:UserContext, permission:PermissionContext) => _ =>
       GetSessionInformationUseCase().execute(
         RequestGetSessionInformation(user, permission) 
@@ -82,7 +82,7 @@ class AuthenticationController()
       .mapError(e => ErrorResponse(message="Can't get current session information"))
     }.expose
 
-  private val getUsers =
+  val getUsers =
     secureEndpoint
     .in("users")
     .get
@@ -93,7 +93,7 @@ class AuthenticationController()
     .out(jsonBody[PaginatedResponse[UserAgentInformation]])
     .exposeSecure
 
-  private val getUsersRoute=
+  val getUsersRoute=
     getUsers.serverLogic { (user:UserContext, permission:PermissionContext) => (page: Int, perPage: Int) =>
       GetUsersUseCase().execute(
         RequestGetUsers(page, perPage)
