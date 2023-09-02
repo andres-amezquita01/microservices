@@ -14,6 +14,7 @@ import authentications.domain.entity._
 import authentications.application.authenticate_user._
 import authorizations.domain.entity._
 import authentications.domain.service.JwtService
+import shared.responses.ErrorResponse
 
 class BaseController()(using jwtService: JwtService):
 
@@ -30,3 +31,9 @@ class BaseController()(using jwtService: JwtService):
       userAndPermission <- authenticateUseCase.execute(RequestAuthenticate(token))
     yield (userAndPermission.userContext, userAndPermission.permissionContext))
       .mapError(e => AuthenticationError(code = 1001))
+
+  
+  val throwableErrorMapper = (error: Throwable) => ErrorResponse(
+    message = error.getLocalizedMessage, 
+    rawError = Option(error.toString)
+  )

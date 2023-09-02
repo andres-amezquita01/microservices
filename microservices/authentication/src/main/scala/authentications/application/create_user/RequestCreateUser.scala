@@ -1,12 +1,13 @@
 package authentications.application.create_user
 
 case class RequestCreateUser (
-  document: Long,
-  documentType: String,
+  identificationCode: Option[String],
   name: String,
-  lastName: String,
-  phone: String,
+  lastName: Option[String],
+  phone: Option[String],
   email: String,
+
   userName: String,
-  password: String
+  password: String,
+  description: Option[String],
 )

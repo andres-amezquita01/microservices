@@ -4,6 +4,7 @@ import agents.domain.repository.AgentRepository
 import agents.domain.entity.Agent
 import io.getquill._
 import shared.BaseRepository
+import java.util.UUID
 
 class AgentRepositoryImpl extends AgentRepository with BaseRepository:
 
@@ -12,15 +13,15 @@ class AgentRepositoryImpl extends AgentRepository with BaseRepository:
   override def getAgents(from: Int, to: Int): List[Agent] =
     ctx.run(
       query[Agent]
-        .sortBy(_.idDocument)(Ord.ascNullsLast)
+        .sortBy(_.name)(Ord.ascNullsLast)
         .take(lift(to))
         .drop(lift(from))
     )
 
-  override def removeAgent(id: Long): Agent =
+  override def removeAgent(id: UUID): Agent =
     ctx.run(
       query[Agent]
-        .filter(_.idDocument == lift(id))
+        .filter(_.id == lift(id))
         .delete
         .returning(r => r)
     )
@@ -28,7 +29,7 @@ class AgentRepositoryImpl extends AgentRepository with BaseRepository:
   override def updateAgent(agent: Agent): Agent = 
     ctx.run(
       query[Agent]
-        .filter(_.idDocument == lift(agent.idDocument))
+        .filter(_.id == lift(agent.id))
         .updateValue(lift(agent))
         .returning(r => r)
     )
@@ -40,10 +41,22 @@ class AgentRepositoryImpl extends AgentRepository with BaseRepository:
         .returning(r => r)
     )
 
-  override def getAgent(id: Long): Option[Agent] = 
+  override def getAgent(id: UUID): Option[Agent] = 
     ctx.run(
       query[Agent]
-      .filter(_.idDocument == lift(id))
+      .filter(_.id == lift(id))
+    ).headOption
+
+  override def getAgentByEmail(email: String): Option[Agent] = 
+    ctx.run(
+      query[Agent]
+      .filter(_.email == lift(email))
+    ).headOption
+
+  override def getAgentByIdentificationCode(identificationCode: String): Option[Agent] = 
+    ctx.run(
+      query[Agent]
+      .filter(_.identificationCode.contains(lift(identificationCode)))
     ).headOption
 
   override def getTotalAmountOfAgents():Long = 

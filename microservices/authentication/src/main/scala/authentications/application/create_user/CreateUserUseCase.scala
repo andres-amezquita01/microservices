@@ -7,44 +7,49 @@ import agents.domain.repository.AgentRepository
 import agents.domain.entity.Agent
 import authentications.domain.service.HashService
 import zio.ZIO
+import java.util.UUID
 
-class CreateUserUseCase()
-(using 
+class CreateUserUseCase() (using 
   authenticationRepository:AuthenticationRepository, 
   agentRepository: AgentRepository,
   hashService: HashService
-) 
-extends BaseUseCase[RequestCreateUser,ResponseCreateUser]:
+) extends BaseUseCase[RequestCreateUser,ResponseCreateUser]:
 
-  override def execute(request: RequestCreateUser) = 
-    val encryptedPassword = hashService.hashPassword(request.password) match
-      case None => return ZIO.fail(new Throwable())
-      case Some(value) => value
-    
-    val agent = agentRepository.insertAgent(
+  private val EMPTY_ID = UUID.randomUUID()
+  private val INTERNAL_AUTH_SOURCE = "internal"
+
+  override def execute(request: RequestCreateUser) =
+
+  for 
+    encryptedPassword <- ZIO.fromOption(hashService.hashPassword(request.password))
+      .mapError(_ => new Throwable("Invalid hash password generation"))
+
+    agent <- ZIO.attempt(agentRepository.insertAgent(
       Agent(
-        idDocument = request.document, 
-        documentType = request.documentType,
-        personType = "NATURAL",
+        id = EMPTY_ID,
+        identificationCode = request.identificationCode,
         name = request.name,
-        lastName = request.lastName,
+        lastName= request.lastName,
         phone = request.phone,
         email = request.email
       )
-    )
-    val user = authenticationRepository.createUser(
+    ))
+
+    user <- ZIO.attempt(authenticationRepository.createUser(
       User (
-        username = request.userName,
-        password = encryptedPassword,
-        description = None,
-        agentId = agent.idDocument
+        id = EMPTY_ID,
+        username = Some(request.userName),
+        password = Some(encryptedPassword),
+        description = request.description,
+        source = INTERNAL_AUTH_SOURCE,
+        agentId = agent.id,
+        externalId = None
       )
-    )
-    ZIO.succeed(
-      ResponseCreateUser(
-        username = user.username,
-        document = agent.idDocument,
-        email = agent.email
-      )
-    )
+    ))
+    .logError
+    .orElseFail(agentRepository.removeAgent(agent.id))
+    .mapError( removedAgent => new Throwable(s"Can't create user, reverted agent creation of ${removedAgent.id}"))
+  yield(
+    ResponseCreateUser(username = user.username.get, agentId = agent.id.toString, userId = user.id.toString, email = agent.email)
+  )
   end execute

@@ -1,7 +1,9 @@
 package authentications.domain.entity
 
+import java.util.UUID
+
 case class UserContext(
-  id: Long,
-  username: String,
-  agentId: Long
+  id: UUID,
+  username: Option[String],
+  agentId: UUID
 )

@@ -1,63 +1,46 @@
 Table "AGENTS" {
-  "id" INT [pk, increment]
-  "person_type" VARCHAR(30) [not null]
+  "id" UUID [pk, default: `gen_random_uuid()`]
+  "identification_code" TEXT
   "name" TEXT [not null]
-  "last_name" TEXT [not null]
-  "phone" VARCHAR(20) [not null]
-  "email" EMAIL [not null]
+  "last_name" TEXT
+  "phone" VARCHAR(20)
+  "email" VARCHAR(254) [not null]
+  "created_at" TIMESTAMP [not null, default: `now()`]
+  "updated_at" TIMESTAMP [not null, default: `now()`]
 }
 
 Table "ROLES" {
   "id" INT [pk, increment]
-  "name" VARCHAR(45) [not null]
+  "name" TEXT [not null]
   "description" TEXT
   "created_at" TIMESTAMP [not null, default: `now()`]
   "updated_at" TIMESTAMP [not null, default: `now()`]
 }
 
 Table "USERS" {
-  "id" INT [pk, increment]
-  "username" VARCHAR(45) [unique, not null]
-  "password" VARCHAR(45) [not null]
+  "id" UUID [pk, default: `gen_random_uuid()`]
+  "username" TEXT [unique]
+  "password" TEXT
   "description" TEXT
   "source" TEXT
-  "agent_id" INT
-  "external_id" INT
-}
-
-Table "USER_ROLES" {
-  "role_id" INT [not null]
-  "user_id" INT [not null]
-}
-
-Table "PERMISSIONS" {
-  "id" INT [pk, increment]
-  "name" VARCHAR(45) [not null]
-  "access_module" VARCHAR(45) [not null]
-  "role_id" INT [not null]
+  "agent_id" UUID
+  "external_id" TEXT
   "created_at" TIMESTAMP [not null, default: `now()`]
   "updated_at" TIMESTAMP [not null, default: `now()`]
 }
 
-Enum MeasureUnit {
-  METER
-  KILOGRAM
-  POUND
-  UNIT
-  LITER
+Table "USER_ROLES" {
+  "role_id" INT [not null]
+  "user_id" UUID [not null]
 }
 
-Enum PersonType {
-  NATURAL
-  LEGAL
-}
-
-Enum DocumentType {
-  CITIZENSHIP_CARD
-  IDENTITY_CARD
-  PASSPORT
-  FOREIGN_CARD
-  NIT
+Table "PERMISSIONS" {
+  "id" INT [pk, increment]
+  "name" TEXT [not null]
+  "access_module" TEXT [not null]
+  "role_id" INT [not null]
+  "created_at" TIMESTAMP [not null, default: `now()`]
+  "updated_at" TIMESTAMP [not null, default: `now()`]
 }
 
 Ref "fk_USERS_AGENT1":"AGENTS"."id" - "USERS"."agent_id" [update: no action, delete: no action]

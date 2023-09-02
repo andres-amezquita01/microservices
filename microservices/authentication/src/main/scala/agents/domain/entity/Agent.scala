@@ -1,11 +1,13 @@
 package agents.domain.entity
 
+import java.time.Instant
+import java.util.UUID
+
 case class Agent (
-  idDocument: Long,
-  documentType: String,
-  personType: String,
+  id: UUID,
+  identificationCode: Option[String],
   name: String,
-  lastName: String,
-  phone: String,
-  email:String
+  lastName: Option[String],
+  phone: Option[String],
+  email: String
 )

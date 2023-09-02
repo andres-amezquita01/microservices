@@ -18,37 +18,42 @@ class LoginUserUseCase()
 ) extends BaseUseCase[RequestLoginUser, ResponseLoginUser]:
 
   override def execute(request: RequestLoginUser) = 
-    val user = 
-      authenticationRepository
+    for
+      user <- ZIO.fromOption(authenticationRepository
         .getUserByUsername(request.usernameOrEmail)
         .orElse(
           authenticationRepository.getUserByEmail(request.usernameOrEmail)
-        ) match
-          case None => return ZIO.fail(new Throwable())
-          case Some(value) => value
-    
-    val userContext = 
-      hashService.areSamePassword(
-        plainPassword = request.password,
-        bcryptedPassword = user.password
-      ) match
-          case true => 
-            user.getUserContext()
-          case false => 
-            return ZIO.fail(new Throwable())
+        )
+      ).mapError(_ => Throwable("User don't exists"))
 
-    val permissionContext = 
-      authorizationRepository
-        .getPermissionContextOfUser(userContext.id)
+      userPassword <- ZIO.fromOption(user.password)
+        .mapError(_ => Throwable("This user is already registered with an external auth service"))
 
-    val (token, expirationTime) = 
-      jwtService.encodeUserInfo(
+      userContext <- ZIO.attempt(
+        hashService.areSamePassword(
+          plainPassword = request.password,
+          bcryptedPassword = userPassword
+        )
+      ).fold(
+        { ZIO.fail(_) }, 
+        { _ match{
+            case true =>  ZIO.succeed(user.getUserContext())
+            case _ => ZIO.fail(Throwable("Incorrect Password"))
+          }
+        }
+      ).flatten
+
+      permissionContext <- ZIO.attempt(authorizationRepository
+        .getPermissionContextOfUser(userContext.id))
+
+      (token, expirationTime) = jwtService.encodeUserInfo(
         TokenInfo(
           userContext,
           permissionContext
         )
       )
-    ZIO.succeed(
+
+    yield(
       ResponseLoginUser(
         accessToken = token,
         expiresIn = expirationTime, 

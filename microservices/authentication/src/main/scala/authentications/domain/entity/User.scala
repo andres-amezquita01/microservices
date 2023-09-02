@@ -1,11 +1,15 @@
 package authentications.domain.entity
 
+import java.util.UUID
+
 case class User (
-  id:Long = -1,
-  username: String,
-  password: String = "",
+  id: UUID,
+  username: Option[String],
+  password: Option[String],
   description: Option[String],
-  agentId: Long
+  source: String,
+  agentId: UUID,
+  externalId: Option[String]
 ){
   def getUserContext():UserContext =
     UserContext(

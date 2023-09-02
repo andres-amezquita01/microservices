@@ -5,6 +5,7 @@ import authentications.domain.service.JwtService
 import agents.domain.repository.AgentRepository
 import zio._
 import authorizations.domain.repository.AuthorizationRepository
+import java.util.UUID
 
 class GetSessionInformationUseCase 
 (using 
@@ -17,18 +18,13 @@ extends BaseUseCase[RequestGetSessionInformation, ResponseGetSessionInformation]
   override def execute(request: RequestGetSessionInformation): Task[ResponseGetSessionInformation] = 
     ZIO.succeed {
       for
-        userAgent <- ZIO.succeed(agentRepository.getAgent(request.user.agentId))
-        roles <- ZIO.succeed(authorizationRepository.getRolesOfUser(request.user.id))
+        userAgent <- ZIO.fromOption(agentRepository.getAgent(request.user.agentId))
+          .mapError(_ => Throwable(s"Not found agent of id ${request.user.agentId}"))
+        roles <- ZIO.attempt(authorizationRepository.getRolesOfUser(request.user.id))
       yield (
         ResponseGetSessionInformation (
-          name = userAgent match {
-            case None => ""
-            case Some(value) => value.name
-          },
-          lastname = userAgent match {
-            case None => ""
-            case Some(value) => value.lastName
-          },
+          name = userAgent.name,
+          lastname = userAgent.lastName,
           username = request.user.username,
           permissions = request.permission.permissions,
           roles = roles

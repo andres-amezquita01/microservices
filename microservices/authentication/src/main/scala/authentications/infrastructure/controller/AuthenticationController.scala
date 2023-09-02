@@ -48,7 +48,7 @@ class AuthenticationController()
   val loginUserRoute: ZServerEndpoint[Any, Any] = loginUser.zServerLogic { request =>
     LoginUserUseCase()
       .execute(request) 
-      .mapError(e => ErrorResponse(message="Can't Login"))
+      .mapError(throwableErrorMapper)
   }.expose
 
   val createUser: PublicEndpoint[RequestCreateUser, ErrorResponse, ResponseCreateUser, Any] =
@@ -63,7 +63,7 @@ class AuthenticationController()
   val createUserRoute:ZServerEndpoint[Any, Any] = createUser.zServerLogic { request => 
       CreateUserUseCase()
         .execute(request) 
-        .mapError(e => ErrorResponse(message="Can't create user"))
+        .mapError(throwableErrorMapper)
   }.expose
 
   val getSessionInformation = 
@@ -79,7 +79,7 @@ class AuthenticationController()
       GetSessionInformationUseCase().execute(
         RequestGetSessionInformation(user, permission) 
       )
-      .mapError(e => ErrorResponse(message="Can't get current session information"))
+      .mapError(throwableErrorMapper)
     }.expose
 
   val getUsers =
@@ -97,5 +97,5 @@ class AuthenticationController()
     getUsers.serverLogic { (user:UserContext, permission:PermissionContext) => (page: Int, perPage: Int) =>
       GetUsersUseCase().execute(
         RequestGetUsers(page, perPage)
-      ).mapError(e => ErrorResponse(message = "Can't get Roles"))
+      ).mapError(throwableErrorMapper)
     }.expose

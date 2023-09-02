@@ -1,11 +1,9 @@
 package agents.application.create_client
 
 case class RequestCreateClient (
-  document: Long, 
-  documentType: String,
-  personType: String,
+  identificationCode: String, 
   name: String,
-  lastName: String,
-  phone: String,
+  lastName: Option[String],
+  phone: Option[String],
   email: String
 )

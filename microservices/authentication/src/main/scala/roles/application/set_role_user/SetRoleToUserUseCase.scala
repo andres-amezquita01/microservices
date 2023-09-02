@@ -5,6 +5,7 @@ import zio._
 import roles.domain.repository.UserRoleRepository
 import roles.domain.entity.UserRole
 import authentications.domain.repository.AuthenticationRepository
+import java.util.UUID
 
 class SetRoleToUserUseCase
 (using userRoleRepository:UserRoleRepository,
@@ -13,14 +14,17 @@ class SetRoleToUserUseCase
 extends BaseUseCase[RequestSetRoleToUser, ResponseSetRoleToUser]:
 
   override def execute(request: RequestSetRoleToUser): Task[ResponseSetRoleToUser] =
-    ZIO.attempt {
-      for
-        user <- ZIO.fromOption(authenticationRepository.getUserByIdDocument(request.idDocument)).mapError(e => Throwable("Can't find User"))
-        createdRole <- ZIO.succeed(userRoleRepository.insertUserRole(
+    for
+      user <- ZIO.fromOption(
+        authenticationRepository.getUserById(UUID.fromString(request.userId))
+      ).mapError(_ => Throwable("Can't find User"))
+
+      createdRole <- ZIO.attempt(
+        userRoleRepository.insertUserRole(
           UserRole(
             roleId = request.roleId,
             userId = user._1.id
           )
-        ))
-      yield(ResponseSetRoleToUser(data = createdRole))
-    }.flatten
+        )
+      )
+    yield(ResponseSetRoleToUser(data = createdRole))
