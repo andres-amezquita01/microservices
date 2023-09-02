@@ -9,15 +9,16 @@ import authorizations.domain.entity.PermissionContext
 import shared.BaseRepository
 import authorizations.domain.entity._
 import roles.domain.entity._
+import java.util.UUID
 
 class AuthorizationRepositoryImpl extends AuthorizationRepository with BaseRepository:
 
   import ctx._
 
-  override def getPermissionContextOfUser(userId: String): PermissionContext =
+  override def getPermissionContextOfUser(userId: UUID): PermissionContext =
     PermissionContext(permissions = List())
 
-  override def getRolesOfUser(userId: String): List[Role] = 
+  override def getRolesOfUser(userId: UUID): List[Role] = 
     val q = quote {
       for 
         userRoles <- query[UserRole].filter(_.userId == lift(userId))

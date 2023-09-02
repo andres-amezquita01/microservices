@@ -4,6 +4,7 @@ import agents.domain.repository.AgentRepository
 import agents.domain.entity.Agent
 import io.getquill._
 import shared.BaseRepository
+import java.util.UUID
 
 class AgentRepositoryImpl extends AgentRepository with BaseRepository:
 
@@ -17,7 +18,7 @@ class AgentRepositoryImpl extends AgentRepository with BaseRepository:
         .drop(lift(from))
     )
 
-  override def removeAgent(id: String): Agent =
+  override def removeAgent(id: UUID): Agent =
     ctx.run(
       query[Agent]
         .filter(_.id == lift(id))
@@ -40,7 +41,7 @@ class AgentRepositoryImpl extends AgentRepository with BaseRepository:
         .returning(r => r)
     )
 
-  override def getAgent(id: String): Option[Agent] = 
+  override def getAgent(id: UUID): Option[Agent] = 
     ctx.run(
       query[Agent]
       .filter(_.id == lift(id))

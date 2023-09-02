@@ -5,6 +5,7 @@ import authentications.domain.entity.User
 import agents.domain.entity.Agent
 import shared.BaseRepository
 import io.getquill._
+import java.util.UUID
 
 class AuthenticationRepositoryImpl extends AuthenticationRepository with BaseRepository:
 
@@ -51,7 +52,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository with BaseRep
     }
     ctx.run(q)
 
-  override def getUserById(userId: String):Option[(User,Agent)] =
+  override def getUserById(userId: UUID):Option[(User,Agent)] =
     val q = quote {
       for
         user <- query[User].filter(_.id == lift(userId))

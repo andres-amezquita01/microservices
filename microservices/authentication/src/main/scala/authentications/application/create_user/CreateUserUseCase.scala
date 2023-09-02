@@ -7,6 +7,7 @@ import agents.domain.repository.AgentRepository
 import agents.domain.entity.Agent
 import authentications.domain.service.HashService
 import zio.ZIO
+import java.util.UUID
 
 class CreateUserUseCase() (using 
   authenticationRepository:AuthenticationRepository, 
@@ -14,7 +15,7 @@ class CreateUserUseCase() (using
   hashService: HashService
 ) extends BaseUseCase[RequestCreateUser,ResponseCreateUser]:
 
-  private val EMPTY_ID = ""
+  private val EMPTY_ID = UUID.randomUUID()
   private val INTERNAL_AUTH_SOURCE = "internal"
 
   override def execute(request: RequestCreateUser) =
@@ -45,9 +46,10 @@ class CreateUserUseCase() (using
         externalId = None
       )
     ))
+    .logError
     .orElseFail(agentRepository.removeAgent(agent.id))
     .mapError( removedAgent => new Throwable(s"Can't create user, reverted agent creation of ${removedAgent.id}"))
   yield(
-    ResponseCreateUser( username = user.username.get, agentId = agent.id, userId = user.id, email = agent.email)
+    ResponseCreateUser(username = user.username.get, agentId = agent.id.toString, userId = user.id.toString, email = agent.email)
   )
   end execute

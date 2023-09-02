@@ -4,12 +4,13 @@ import shared.application.BaseUseCase
 import zio._
 import agents.domain.repository.AgentRepository
 import agents.domain.entity.Agent
+import java.util.UUID
 
 class CreateClientUseCase
 (using agentRepository:AgentRepository)
 extends BaseUseCase[RequestCreateClient, ResponseCreateClient]:
 
-  private val EMPTY_AGENT_ID = ""
+  private val EMPTY_AGENT_ID = UUID.fromString("")
 
   override def execute(request: RequestCreateClient): Task[ResponseCreateClient] = 
     ZIO.succeed {

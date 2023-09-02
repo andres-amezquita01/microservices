@@ -5,6 +5,7 @@ import authentications.domain.service.JwtService
 import agents.domain.repository.AgentRepository
 import zio._
 import authorizations.domain.repository.AuthorizationRepository
+import java.util.UUID
 
 class GetSessionInformationUseCase 
 (using 

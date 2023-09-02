@@ -35,5 +35,5 @@ class BaseController()(using jwtService: JwtService):
   
   val throwableErrorMapper = (error: Throwable) => ErrorResponse(
     message = error.getLocalizedMessage, 
-    detail = Some(error.getCause.getLocalizedMessage)
+    rawError = Option(error.toString)
   )

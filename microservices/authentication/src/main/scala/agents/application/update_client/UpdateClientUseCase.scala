@@ -4,6 +4,7 @@ import shared.application.BaseUseCase
 import zio._
 import agents.domain.repository.AgentRepository
 import agents.domain.entity.Agent
+import java.util.UUID
 
 class UpdateClientUseCase(agentId: String) (
   using agentRepository:AgentRepository
@@ -13,7 +14,7 @@ class UpdateClientUseCase(agentId: String) (
     ZIO.succeed {
       agentRepository.updateAgent(
         Agent (
-          id = agentId, 
+          id = UUID.fromString(agentId), 
           identificationCode = Some(request.identificationCode),
           name = request.name,
           lastName = request.lastName,

@@ -5,6 +5,7 @@ import zio._
 import roles.domain.repository.UserRoleRepository
 import roles.domain.entity.UserRole
 import authentications.domain.repository.AuthenticationRepository
+import java.util.UUID
 
 class SetRoleToUserUseCase
 (using userRoleRepository:UserRoleRepository,
@@ -15,7 +16,7 @@ extends BaseUseCase[RequestSetRoleToUser, ResponseSetRoleToUser]:
   override def execute(request: RequestSetRoleToUser): Task[ResponseSetRoleToUser] =
     for
       user <- ZIO.fromOption(
-        authenticationRepository.getUserById(request.userId)
+        authenticationRepository.getUserById(UUID.fromString(request.userId))
       ).mapError(_ => Throwable("Can't find User"))
 
       createdRole <- ZIO.attempt(
