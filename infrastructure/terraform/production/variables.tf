@@ -43,7 +43,7 @@ variable "ssh_key_name" {
  default = "ecs_microservices_key" 
 }
 variable "ecs_ec2_rol" {
-  default = "ecs_ec2_Role"
+  default = "ecsInstanceRole"
 }
 # variable "ecs_ec2_arn_rol" {
 #   default = "arn:aws:iam::792511625564:role/ecs_ec2_Role"

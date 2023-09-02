@@ -1,6 +1,7 @@
 data "aws_iam_role" "ecs_ec2_rol" {
   name = var.ecs_ec2_rol
 }
+
 resource "aws_launch_template" "ecs_lt" {
     name_prefix = var.launch_template_prefix
     image_id = var.ecs_ami
@@ -9,12 +10,9 @@ resource "aws_launch_template" "ecs_lt" {
     vpc_security_group_ids = [aws_security_group.ecs_ec2_sg.id]
 
     iam_instance_profile {
-        name = data.aws_iam_role.ecs_ec2_rol.name
-        # name = data.aws_iam_role.ecs_ec2_rol.
-        # arn = var.ecs_ec2_arn_rol
-        
+        # name = data.aws_iam_role.ecs_ec2_rol.name
+        name = "ecsInstanceRole"
     }
-
     block_device_mappings {
         device_name = "/dev/xvda"
         ebs {
