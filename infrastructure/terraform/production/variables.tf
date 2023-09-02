@@ -28,3 +28,23 @@ variable "availability_zones" {
  description = "Availability Zones list"
  default     = ["us-east-1a", "us-east-1b"]
 }
+
+#--------------------ASG-----------------
+variable "launch_template_prefix" {
+  default = "ecs-template"
+}
+variable "ecs_ami" {
+  default = "ami-0f409bae3775dc8e5"
+}
+variable "ecs_instance_type" {
+  default = "t2.micro"
+}
+variable "ssh_key_name" {
+ default = "ecs_microservices_key" 
+}
+variable "ecs_ec2_rol" {
+  default = "ecs_ec2_Role"
+}
+# variable "ecs_ec2_arn_rol" {
+#   default = "arn:aws:iam::792511625564:role/ecs_ec2_Role"
+# }

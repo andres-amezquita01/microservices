@@ -1,4 +1,4 @@
-resource "aws_security_group" "sg" {
+resource "aws_security_group" "ecs_ec2_sg" {
   name        = "${var.environment}-ec2-sg"
   description = "Allow SSH inbound traffic"
   vpc_id      = aws_vpc.main_vpc.id
