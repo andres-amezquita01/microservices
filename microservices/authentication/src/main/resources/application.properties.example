@@ -1,7 +1,7 @@
 productionDatabase.dataSourceClassName=org.postgresql.ds.PGSimpleDataSource
-productionDatabase.dataSource.url=
-productionDatabase.dataSource.user=
-productionDatabase.dataSource.password=
+productionDatabase.dataSource.url=jdbc:postgresql://localhost:5432/authentication
+productionDatabase.dataSource.user=postgres
+productionDatabase.dataSource.password=totally_secure_password
 
 testDatabase.dataSourceClassName=org.postgresql.ds.PGSimpleDataSource
 testDatabase.dataSource.url=jdbc:postgresql://127.0.0.1:5432/crm
