@@ -1,6 +1,5 @@
 Table "AGENTS" {
   "id" INT [pk, increment]
-  "document_type" TEXT [not null]
   "person_type" VARCHAR(30) [not null]
   "name" TEXT [not null]
   "last_name" TEXT [not null]
@@ -12,6 +11,8 @@ Table "ROLES" {
   "id" INT [pk, increment]
   "name" VARCHAR(45) [not null]
   "description" TEXT
+  "created_at" TIMESTAMP [not null, default: `now()`]
+  "updated_at" TIMESTAMP [not null, default: `now()`]
 }
 
 Table "USERS" {
@@ -19,7 +20,9 @@ Table "USERS" {
   "username" VARCHAR(45) [unique, not null]
   "password" VARCHAR(45) [not null]
   "description" TEXT
-  "agent_id" INT [not null]
+  "source" TEXT
+  "agent_id" INT
+  "external_id" INT
 }
 
 Table "USER_ROLES" {
@@ -32,6 +35,8 @@ Table "PERMISSIONS" {
   "name" VARCHAR(45) [not null]
   "access_module" VARCHAR(45) [not null]
   "role_id" INT [not null]
+  "created_at" TIMESTAMP [not null, default: `now()`]
+  "updated_at" TIMESTAMP [not null, default: `now()`]
 }
 
 Enum MeasureUnit {
