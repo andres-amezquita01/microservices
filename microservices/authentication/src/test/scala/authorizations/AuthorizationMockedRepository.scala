@@ -1,0 +1,8 @@
+package authorizations
+
+import authorizations.domain.repository.AuthorizationRepository
+import shared.BaseMockedRepository
+import authorizations.infrastructure.repository.AuthorizationRepositoryImpl
+
+class AuthorizationMockedRepository extends AuthorizationRepositoryImpl with BaseMockedRepository
+

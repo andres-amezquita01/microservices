@@ -1,4 +1,4 @@
-package authentication
+package authentications
 
 import authentications.infrastructure.repository.AuthenticationRepositoryImpl
 import shared.BaseMockedRepository
