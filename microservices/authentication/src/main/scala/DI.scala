@@ -26,4 +26,4 @@ trait DI:
   given authorizationRepository: AuthorizationRepository = new AuthorizationRepositoryImpl()
   given agentRepository: AgentRepository = new AgentRepositoryImpl()
   given hashService: HashService = new HashServiceImpl()
-  // given loggingTraceService: LoggingTraceService = LoggingTraceServiceImpl
+  given loggingTraceService: LoggingTraceService = LoggingTraceServiceImpl

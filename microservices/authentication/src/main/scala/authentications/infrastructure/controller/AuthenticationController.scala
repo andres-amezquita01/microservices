@@ -35,7 +35,7 @@ class AuthenticationController()
   authenticationRepository: AuthenticationRepository, 
   authorizationRepository: AuthorizationRepository,
   agentRepository: AgentRepository,
-  // loggingTraceService: LoggingTraceService
+  loggingTraceService: LoggingTraceService
 ) extends BaseController:
 
   val loginUser:PublicEndpoint[RequestLoginUser, ErrorResponse,ResponseLoginUser, Any] =

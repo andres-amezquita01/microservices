@@ -16,7 +16,7 @@ object LoggingTraceServiceImpl extends LoggingTraceService:
 
   private val QUEUE_TOPIC = "logging"
   private val BOOSTRAP_SERVERS = List(
-    Properties.envOrElse("KAFKA_URL", "NO_KAFKA_URL") + ":" + Properties.envOrElse("KAFKA_PORT", "9092")
+    Properties.envOrElse("KAFKA_URL", "localhost") + ":" + Properties.envOrElse("KAFKA_PORT", "9092")
   )
 
   override val loggingLayer:ZLayer[Any, Throwable, Producer] = 
