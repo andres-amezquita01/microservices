@@ -59,7 +59,7 @@ class LoginUserUseCase()
 
       _ <- loggingTraceService.logSystemAction( 
         SystemAction.Login(userName = userContext.username.getOrElse("Unknown"), userId = userContext.id.toString)
-      ).orElse(ZIO.succeed("Can't send data to logtracer") )
+      )
     yield(
       ResponseLoginUser(
         accessToken = token,

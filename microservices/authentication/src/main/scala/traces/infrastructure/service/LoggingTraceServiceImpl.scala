@@ -11,12 +11,15 @@ import java.time.LocalDateTime
 import java.util.UUID
 import scala.util.Random
 import zio.*
+import io.circe.syntax._
+import java.util.concurrent.TimeUnit
 
 object LoggingTraceServiceImpl extends LoggingTraceService:
 
-  private val QUEUE_TOPIC = "logging"
+  private val QUEUE_TOPIC = Properties.envOrElse("TOPIC_NAME", "logtrace")
+  private val ERROR_SENDING = "The message can't be send to the queue"
   private val BOOSTRAP_SERVERS = List(
-    Properties.envOrElse("KAFKA_URL", "localhost") + ":" + Properties.envOrElse("KAFKA_PORT", "9092")
+    Properties.envOrElse("KAFKA_URL", "localhost") + ":" + Properties.envOrElse("KAFKA_PORT", "29092")
   )
 
   override val loggingLayer:ZLayer[Any, Throwable, Producer] = 
@@ -26,37 +29,42 @@ object LoggingTraceServiceImpl extends LoggingTraceService:
       )
     )
 
-  override def logSystemAction(systemAction: SystemAction): Task[RecordMetadata] = 
+  override def logSystemAction(systemAction: SystemAction): Task[String] = 
     for
       sendMetaData <- sendLogginTraceSystemAction(systemAction)
-      _ <- ZIO.logInfo(sendMetaData.toString)
+        .timeout(Duration(1000, TimeUnit.MILLISECONDS))
+        .map(_ => "Sended logtrace")
+        .orElse(ZIO.succeed("Can't send data to logtracer") )
+      _ <- ZIO.logInfo(sendMetaData)
     yield (sendMetaData)
 
-  private def sendLogginTraceSystemAction(systemAction: SystemAction): Task[RecordMetadata] = ZIO.attempt {
-    systemAction match
-      case Login(_, _) | SignUp(_, _) => ZIO.succeed(LoggingTrace(
-        time = LocalDateTime.now().toString,
-        owner = systemAction.userName,
-        ownerId = systemAction.userId,
-        action = systemAction.actionId,
-        entity = None,
-        information = None
-      ))
-      case DataModification(userName, userId, newDataJson, modificatedEntity) => ZIO.succeed(LoggingTrace(
-        time = LocalDateTime.now().toString,
-        owner = systemAction.userName,
-        ownerId = systemAction.userId,
-        action = systemAction.actionId,
-        entity = Some(modificatedEntity),
-        information = Some(newDataJson)
-      )) 
-  }.flatMap { loggingTrace => 
-    Producer.produce[Any, Long, String](
-      topic = QUEUE_TOPIC,
-      key = Random.nextLong,
-      value = loggingTrace.toString,
-      keySerializer = Serde.long,
-      valueSerializer = Serde.string
-    )
-  }.provideLayer(loggingLayer)
-
+  private def sendLogginTraceSystemAction(systemAction: SystemAction): Task[RecordMetadata] = 
+    for 
+      loggingTrace <- ZIO.attempt {
+        systemAction match
+        case Login(_, _) | SignUp(_, _) => ZIO.succeed(LoggingTrace(
+          time = LocalDateTime.now().toString,
+          owner = systemAction.userName,
+          ownerId = systemAction.userId,
+          action = systemAction.actionId,
+          entity = None,
+          information = None
+        ))
+        case DataModification(userName, userId, newDataJson, modificatedEntity) => ZIO.succeed(LoggingTrace(
+          time = LocalDateTime.now().toString,
+          owner = systemAction.userName,
+          ownerId = systemAction.userId,
+          action = systemAction.actionId,
+          entity = Some(modificatedEntity),
+          information = Some(newDataJson)
+        )) 
+        case null => ZIO.fail(Throwable("Invalid SystemAction"))
+      }.flatten
+      result <- Producer.produce[Any, Long, String](
+        topic = QUEUE_TOPIC,
+        key = Random.nextLong,
+        value = loggingTrace.toString,
+        keySerializer = Serde.long,
+        valueSerializer = Serde.string
+      ).provideLayer(loggingLayer)
+    yield(result)
