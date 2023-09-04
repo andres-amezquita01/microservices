@@ -26,6 +26,7 @@ import shared.responses._
 import authorizations.domain.entity.PermissionContext
 import authentications.domain.entity.UserContext
 import authentications.domain.entity.User
+import traces.domain.service.LoggingTraceService
 
 class AuthenticationController()
 (using 
@@ -34,6 +35,7 @@ class AuthenticationController()
   authenticationRepository: AuthenticationRepository, 
   authorizationRepository: AuthorizationRepository,
   agentRepository: AgentRepository,
+  // loggingTraceService: LoggingTraceService
 ) extends BaseController:
 
   val loginUser:PublicEndpoint[RequestLoginUser, ErrorResponse,ResponseLoginUser, Any] =

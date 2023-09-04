@@ -1,6 +1,6 @@
-package agents.application.create_client
+package agents.application.create_agent
 
-case class RequestCreateClient (
+case class RequestCreateAgent (
   identificationCode: String, 
   name: String,
   lastName: Option[String],

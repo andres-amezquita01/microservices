@@ -1,6 +1,6 @@
-package agents.application.update_client
+package agents.application.update_agent
 
-case class RequestUpdateClient (
+case class RequestUpdateAgent (
   identificationCode: String, 
   name: String,
   lastName: Option[String],

@@ -1,6 +1,6 @@
-package agents.application.get_client
+package agents.application.get_agent
 
-case class RequestGetClient (
+case class RequestGetAgent (
   id: Option[String],
   identificationCode: Option[String],
   email: Option[String]

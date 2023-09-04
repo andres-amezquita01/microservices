@@ -17,14 +17,14 @@ import sttp.tapir.server.ziohttp.ZioHttpServerOptions
 
 import shared.interceptors._
 import sttp.tapir.server.interceptor.cors.CORSInterceptor
-import agents.infrastructure.controller.ClientController
+import agents.infrastructure.controller.AgentController
 import roles.infrastructure.controller.RoleController
 import permissions.infrastructure.controller.PermissionController
 
 object Main extends ZIOAppDefault with DI:
 
   AuthenticationController()
-  ClientController()
+  AgentController()
   RoleController()
   PermissionController()
 

@@ -8,13 +8,17 @@ import authentications.domain.entity.TokenInfo
 
 import authorizations.domain.repository.AuthorizationRepository
 import zio.ZIO
+import traces.domain.service.LoggingTraceService
+import traces.domain.entity.SystemAction
+import zio.Schedule
 
 class LoginUserUseCase()
 (using 
   jwtService: JwtService, 
   authenticationRepository:AuthenticationRepository,
   authorizationRepository: AuthorizationRepository,
-  hashService: HashService
+  hashService: HashService,
+  // loggingTraceService: LoggingTraceService
 ) extends BaseUseCase[RequestLoginUser, ResponseLoginUser]:
 
   override def execute(request: RequestLoginUser) = 
@@ -52,6 +56,10 @@ class LoginUserUseCase()
           permissionContext
         )
       )
+
+      // _ <- loggingTraceService.logSystemAction( 
+      //   SystemAction.Login(userName = userContext.username.getOrElse("Unknown"), userId = userContext.id.toString)
+      // ) .retryOrElse(Schedule.recurs(2), (_, _) => ZIO.succeed("Can't send data to logtracer"))
 
     yield(
       ResponseLoginUser(

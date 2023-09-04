@@ -1,4 +1,4 @@
-package agents.application.update_client
+package agents.application.update_agent
 
 import shared.application.BaseUseCase
 import zio._
@@ -6,11 +6,11 @@ import agents.domain.repository.AgentRepository
 import agents.domain.entity.Agent
 import java.util.UUID
 
-class UpdateClientUseCase(agentId: String) (
+class UpdateAgentUseCase(agentId: String) (
   using agentRepository:AgentRepository
-) extends BaseUseCase[RequestUpdateClient, ResponseUpdateClient]:
+) extends BaseUseCase[RequestUpdateAgent, ResponseUpdateAgent]:
 
-  override def execute(request: RequestUpdateClient): Task[ResponseUpdateClient] = 
+  override def execute(request: RequestUpdateAgent): Task[ResponseUpdateAgent] = 
     ZIO.succeed {
       agentRepository.updateAgent(
         Agent (
@@ -22,4 +22,4 @@ class UpdateClientUseCase(agentId: String) (
           email = request.email
         )
       ) 
-    }.map(ResponseUpdateClient(_))
+    }.map(ResponseUpdateAgent(_))
