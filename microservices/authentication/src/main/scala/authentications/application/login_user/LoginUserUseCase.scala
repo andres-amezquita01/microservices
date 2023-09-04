@@ -18,7 +18,7 @@ class LoginUserUseCase()
   authenticationRepository:AuthenticationRepository,
   authorizationRepository: AuthorizationRepository,
   hashService: HashService,
-  // loggingTraceService: LoggingTraceService
+  loggingTraceService: LoggingTraceService
 ) extends BaseUseCase[RequestLoginUser, ResponseLoginUser]:
 
   override def execute(request: RequestLoginUser) = 
@@ -57,10 +57,9 @@ class LoginUserUseCase()
         )
       )
 
-      // _ <- loggingTraceService.logSystemAction( 
-      //   SystemAction.Login(userName = userContext.username.getOrElse("Unknown"), userId = userContext.id.toString)
-      // ) .retryOrElse(Schedule.recurs(2), (_, _) => ZIO.succeed("Can't send data to logtracer"))
-
+      _ <- loggingTraceService.logSystemAction( 
+        SystemAction.Login(userName = userContext.username.getOrElse("Unknown"), userId = userContext.id.toString)
+      )
     yield(
       ResponseLoginUser(
         accessToken = token,

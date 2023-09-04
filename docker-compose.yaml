@@ -6,43 +6,43 @@ services:
   authentication_microservice: 
     build: microservices/authentication
     environment:
-      DB_URL: "authentication_db"
+      DB_URL: "postgresql_engine"
       DB_PORT: "5432"
       DB_NAME: "authentication"
       DB_USER: "postgres"
       DB_PASSWORD: "totally_secure_password"
       KAFKA_URL: "kafka"
-      KAFKA_PORT: "9092"
+      KAFKA_PORT: "29092"
     ports:
       - 8090:8090
     depends_on: 
-      - authentication_db
+      - postgresql_engine
 
-  authentication_db:
+  postgresql_engine:
     image: postgres
     environment:
       POSTGRES_PASSWORD: totally_secure_password
     ports:
       - 5432:5432
 
-  kafka:
-    image: docker.io/bitnami/kafka:3.5
-    ports:
-      - 9092:9092
-    volumes:
-      - "kafka_data:/bitnami"
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
     environment:
-      # KRaft settings
-      - KAFKA_CFG_NODE_ID=0
-      - KAFKA_CFG_PROCESS_ROLES=controller,broker
-      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
-      # Listeners
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
-
-volumes:
-  kafka_data:
-    driver: local
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+  
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
