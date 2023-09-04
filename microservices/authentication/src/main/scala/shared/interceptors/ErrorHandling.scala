@@ -39,8 +39,7 @@ object ErrorHandling:
       case exception :PSQLException => ErrorResponse(
         error = "Database operation exception!",
         message = message.split("Detail:").lastOption.getOrElse(message),
-        detail = Some("Usuallly this happens due a violatio of the schema in the Database, check your FK and IDs")
-        )
+        detail = Some("Usuallly this happens due a violatio of the schema in the Database, check your FK and IDs"))
       case _: Throwable => ErrorResponse(
         message = "We have problems handling your request"
       )

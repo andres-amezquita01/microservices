@@ -33,7 +33,13 @@ val tapirVersion = "1.7.3"
 val zioDependencies = Seq(
   "dev.zio" %% "zio" % zioVersion,
   "dev.zio" %% "zio-http" % zioHttpVersion,
-  "dev.zio" %% "zio-logging" % zioLoggingVersion
+  "dev.zio" %% "zio-logging" % zioLoggingVersion,
+)
+
+val zioKafkaVersion = "2.4.2"
+
+val kafkaDependencies = Seq(
+  "dev.zio" %% "zio-kafka" % zioKafkaVersion
 )
 
 val tapirDependencies = Seq(
@@ -68,31 +74,33 @@ val emailDependencies = Seq(
 lazy val root = project
 .in(file("."))
 .settings(
-    name := "Authentication Microservice",
-    version := "1.0",
+  name := "Authentication Microservice",
+  version := "1.0",
 
-    libraryDependencies ++= zioDependencies,
-    libraryDependencies ++= quillDependencies,
-    libraryDependencies ++= tapirDependencies,
-    libraryDependencies ++= authDependencies,
-    libraryDependencies ++= emailDependencies,
-    libraryDependencies ++= testingDependencies,
+  libraryDependencies ++= zioDependencies,
+  libraryDependencies ++= quillDependencies,
+  libraryDependencies ++= tapirDependencies,
+  libraryDependencies ++= authDependencies,
+  libraryDependencies ++= emailDependencies,
+  libraryDependencies ++= testingDependencies,
+  libraryDependencies ++= kafkaDependencies,
 
-    run / fork := true,
-    run / javaOptions ++= unnamedJavaOptions
- )
+  run / fork := true,
+  run / javaOptions ++= unnamedJavaOptions
+)
 
 testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
 
 assembly / assemblyMergeStrategy := {
-  case path if path.contains("META-INF/services") =>
-    MergeStrategy.concat
-  case PathList("META-INF", "maven", "org.webjars", "swagger-ui", "pom.properties") =>
-    MergeStrategy.singleOrError
-  case PathList("META-INF", "resources", "webjars", "swagger-ui", xs@_*) =>
-    MergeStrategy.first
-  case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
-  case _                        => MergeStrategy.first
-}
+    case path if path.contains("META-INF/services") =>
+      MergeStrategy.concat
+    case PathList("META-INF", "maven", "org.webjars", "swagger-ui", "pom.properties") =>
+        MergeStrategy.singleOrError
+    case PathList("META-INF", "resources", "webjars", "swagger-ui", xs@_*) =>
+          MergeStrategy.first
+    case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
+            case _                        => MergeStrategy.first
+  }
 
 assembly / assemblyJarName := "authentication.jar"
+

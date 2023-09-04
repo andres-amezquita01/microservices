@@ -7,9 +7,26 @@ import authentications.domain.entity.User
 import agents.domain.entity.Agent
 import roles.domain.entity._
 import permissions.domain.entity.Permission
+import com.zaxxer.hikari.HikariDataSource
+import org.postgresql.ds.PGSimpleDataSource
+import com.zaxxer.hikari.HikariConfig
+import scala.util.Properties
 
 object BaseRepository:
-  lazy val postgresConnection = new PostgresJdbcContext(SnakeCase, "productionDatabase")
+  lazy val config = new HikariConfig() {{ 
+    setDataSource(new PGSimpleDataSource {{
+      setServerNames(Array(Properties.envOrElse("DB_URL", "localhost" )))
+      setPortNumbers(Array(Properties.envOrElse("DB_PORT", "5432").toInt))
+      setDatabaseName(Properties.envOrElse("DB_NAME", "authentication"))
+      setUser(Properties.envOrElse("DB_USER", "postgres"))
+      setPassword(Properties.envOrElse("DB_PASSWORD", "totally_secure_password"))
+    }})
+  }}
+
+  lazy val postgresConnection = new PostgresJdbcContext(
+    naming = SnakeCase, 
+    new HikariDataSource(config)
+  )
 
 trait BaseRepository:
 
