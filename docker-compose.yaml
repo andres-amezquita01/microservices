@@ -6,7 +6,7 @@ services:
   authentication_microservice: 
     build: microservices/authentication
     environment:
-      DB_URL: "authentication_db"
+      DB_URL: "postgresql_engine"
       DB_PORT: "5432"
       DB_NAME: "authentication"
       DB_USER: "postgres"
@@ -16,9 +16,9 @@ services:
     ports:
       - 8090:8090
     depends_on: 
-      - authentication_db
+      - postgresql_engine
 
-  authentication_db:
+  postgresql_engine:
     image: postgres
     environment:
       POSTGRES_PASSWORD: totally_secure_password
