@@ -38,3 +38,4 @@ src/main/resources/application.properties
 /src/main/resources/application.properties
 crm_backend/src/main/resources/application.properties
 /crm_backend/src/main/resources/application.properties
+keys.json
