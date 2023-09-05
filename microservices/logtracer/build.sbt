@@ -24,16 +24,22 @@ val unnamedJavaOptions = List(
 
 val zioVersion = "2.0.15"
 val zioLoggingVersion = "2.1.14"
+val zioJsonVersion = "0.6.1"
 
 val zioDependencies = Seq(
   "dev.zio" %% "zio" % zioVersion,
   "dev.zio" %% "zio-logging" % zioLoggingVersion,
+  "dev.zio" %% "zio-json" % zioJsonVersion
 )
 
 val zioKafkaVersion = "2.4.2"
 
 val kafkaDependencies = Seq(
   "dev.zio" %% "zio-kafka" % zioKafkaVersion
+)
+
+val firebaseDependencies = Seq(
+  "com.google.firebase" % "firebase-admin" % "9.2.0"
 )
 
 val emailDependencies = Seq(
@@ -49,6 +55,7 @@ lazy val root = project
   libraryDependencies ++= zioDependencies,
   libraryDependencies ++= kafkaDependencies,
   libraryDependencies ++= emailDependencies,
+  libraryDependencies ++= firebaseDependencies,
 
   run / fork := true,
   run / javaOptions ++= unnamedJavaOptions
