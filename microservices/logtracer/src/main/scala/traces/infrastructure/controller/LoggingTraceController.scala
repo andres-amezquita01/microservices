@@ -7,6 +7,7 @@ import zio.kafka.consumer.*
 import scala.util.Properties
 import zio.kafka.serde.Serde
 import traces.application.save_trace.SaveTraceUseCase
+import org.apache.kafka.common.KafkaException
 
 class LoggingTraceController()(
   using loggingTraceRepository: LoggingTraceRepository
@@ -35,10 +36,22 @@ object LoggingTraceController{
     Properties.envOrElse("KAFKA_URL", "localhost") + ":" + Properties.envOrElse("KAFKA_PORT", "29092")
   )
 
-  def consumerLayer =
-    ZLayer.scoped(
+  def consumerLayer = ZLayer.scoped(
       Consumer.make(
         ConsumerSettings(BOOSTRAP_SERVERS).withGroupId("group")
       )
-    )
+    ).foldLayer(
+      (error:Throwable) => {
+        for
+          _ <- ZLayer.fromZIO(ZIO.logWarning("Can't connect to Kafka"))
+          failedLayer <- ZLayer.fail(error)
+        yield(failedLayer)
+      },
+      layer => {
+        for 
+          _ <- ZLayer.fromZIO(ZIO.log("Connected to Kafka"))
+          layer <- ZLayer.succeedEnvironment(layer)
+        yield(layer)
+      }
+    ).retry(Schedule.fixed(10.seconds))
 }
