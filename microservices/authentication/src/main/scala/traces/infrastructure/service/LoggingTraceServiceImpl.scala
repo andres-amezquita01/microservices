@@ -13,6 +13,8 @@ import scala.util.Random
 import zio.*
 import io.circe.syntax._
 import java.util.concurrent.TimeUnit
+import io.circe.Encoder
+import io.circe.generic.semiauto._
 
 object LoggingTraceServiceImpl extends LoggingTraceService:
 
@@ -21,6 +23,8 @@ object LoggingTraceServiceImpl extends LoggingTraceService:
   private val BOOSTRAP_SERVERS = List(
     Properties.envOrElse("KAFKA_URL", "localhost") + ":" + Properties.envOrElse("KAFKA_PORT", "29092")
   )
+
+  implicit val loggingTraceEncoder: Encoder[LoggingTrace] = deriveEncoder[LoggingTrace]
 
   override val loggingLayer:ZLayer[Any, Throwable, Producer] = 
     ZLayer.scoped(
@@ -63,7 +67,7 @@ object LoggingTraceServiceImpl extends LoggingTraceService:
       result <- Producer.produce[Any, Long, String](
         topic = QUEUE_TOPIC,
         key = Random.nextLong,
-        value = loggingTrace.toString,
+        value = loggingTrace.asJson.toString,
         keySerializer = Serde.long,
         valueSerializer = Serde.string
       ).provideLayer(loggingLayer)

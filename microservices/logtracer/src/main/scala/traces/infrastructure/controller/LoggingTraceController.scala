@@ -17,9 +17,10 @@ class LoggingTraceController()(
     Consumer
       .plainStream(Subscription.topics(LoggingTraceController.QUEUE_TOPIC), Serde.long, Serde.string)
       .tap(
-        reccord => 
+        record => 
           for 
-            savedResponse <- saveTraceUseCase.execute(reccord.value)
+            savedResponse <- saveTraceUseCase.execute(record.value)
+            _ <- Console.printLine(s"Received - Key: ${record.key} Value ${record.value}" )
           yield(savedResponse)
       )
       .map(_.offset)
