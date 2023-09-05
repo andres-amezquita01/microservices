@@ -3,6 +3,7 @@ package traces.infrastructure.repository
 import traces.domain.repository.LoggingTraceRepository
 import traces.domain.entity.LoggingTrace
 import zio.Task
+import collection.JavaConverters.mapAsJavaMapConverter
 import com.google.firebase.FirebaseApp
 import java.io.FileInputStream
 import com.google.firebase.FirebaseOptions
@@ -43,7 +44,7 @@ class LoggingTraceRepositoryImpl extends LoggingTraceRepository:
           "action" -> trace.action,
           "entity" -> trace.entity.getOrElse(""),
           "information" -> trace.information.getOrElse("")
-        )
+        ).asJava
       )
       uploadDocument <- database
         .collection("loggin_traces")

@@ -8,11 +8,14 @@ import agents.domain.entity.Agent
 import authentications.domain.service.HashService
 import zio.ZIO
 import java.util.UUID
+import traces.domain.service.LoggingTraceService
+import traces.domain.entity.SystemAction
 
 class CreateUserUseCase() (using 
   authenticationRepository:AuthenticationRepository, 
   agentRepository: AgentRepository,
-  hashService: HashService
+  hashService: HashService,
+  loggingTraceService: LoggingTraceService
 ) extends BaseUseCase[RequestCreateUser,ResponseCreateUser]:
 
   private val EMPTY_ID = UUID.randomUUID()
@@ -47,8 +50,14 @@ class CreateUserUseCase() (using
       )
     ))
     .logError
-    .orElseFail(agentRepository.removeAgent(agent.id))
-    .mapError( removedAgent => new Throwable(s"Can't create user, reverted agent creation of ${removedAgent.id}"))
+    .orElseFail(
+      agentRepository.removeAgent(agent.id)
+    )
+    .mapError(removedAgent => new Throwable(s"Can't create user, reverted agent creation of ${removedAgent.id}"))
+
+    _ <- loggingTraceService.logSystemAction( 
+        SystemAction.SignUp(userName = user.username.getOrElse("Unknown"), userId = user.id.toString)
+    )
   yield(
     ResponseCreateUser(username = user.username.get, agentId = agent.id.toString, userId = user.id.toString, email = agent.email)
   )
