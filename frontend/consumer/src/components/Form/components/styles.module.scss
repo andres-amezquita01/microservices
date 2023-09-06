@@ -1,0 +1,129 @@
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  label {
+      font-size: 14px;
+      font-weight: 600;
+  }
+
+  input {
+      padding: .6rem 1rem;
+      border: 1px solid rgba(102, 102, 102, 0.35);
+      font-size: 14px;
+      border-radius: 12px;
+      transition-duration: .3s;
+      outline: .5px solid transparent;
+
+      &:focus {
+          outline: 1.5px solid #1E9189;
+      }
+  }
+}
+
+.submitButton {
+  margin-top: 1rem;
+  width: 100%;
+  background: #2957C2;
+  color: white;
+  text-align: center;
+  border-radius: 100px;
+  padding: .4rem 0;
+  border: 1px solid transparent;
+  transition-duration: .3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+      background-color: rgba(0, 106, 255, 0.80);
+      color: #fff;
+      border: 1px solid rgba(0, 106, 255, 0.80);
+  }
+}
+.cancelButton {
+  margin-top: 1rem;
+  width: 100%;
+  text-align: center;
+  border-radius: 10px;
+  padding: .4rem 0;
+  border: 1px solid transparent;
+  transition-duration: .3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(210, 0, 26, 0.55);
+  color: white;
+
+  &:hover {
+    background-color: rgba(210, 0, 26, 0.55);
+    color: #fff;
+    border: 1px solid rgba(210, 0, 26, 0.55);
+  }
+}
+.containerInput{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 35px;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+
+}
+.listBox {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  label {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  select {
+    padding: .6rem 1rem;
+    border: 0.5px solid rgba(102, 102, 102, 0.35);
+    font-size: 14px;
+    border-radius: 12px;
+    transition-duration: .3s;
+    outline: .5px solid transparent;
+  }
+
+}
+.div{
+  margin-left: 10rem;
+}
+.spanContainer{
+  color: var(--cloudi-blue, #2957C2);
+  text-align: center;
+  font-family: Poppins, "Poppins";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 36px */
+  text-decoration-line: underline;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  label {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  input {
+    padding: .6rem 1rem;
+    border: 1px solid rgba(102, 102, 102, 0.35);
+    font-size: 14px;
+    border-radius: 12px;
+    transition-duration: .3s;
+    outline: .5px solid transparent;
+
+
+  }
+}
