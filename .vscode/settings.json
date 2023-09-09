@@ -1,0 +1,5 @@
+{
+    "workbench.activityBar.iconClickBehavior": "toggle",
+    "terminal.explorerKind": "external",
+    "terminal.integrated.allowChords": false
+}
