@@ -1,16 +1,15 @@
-// @ts-ignore
-import { Loader } from '@/components/loader';
-import styles from './styles.module.scss'
+import { Loader } from "@/components/Loader";
+import styles from "./styles.module.scss";
 
 interface SubmitButtonProps {
-  buttonText: string
-  isLoading?: boolean
+  buttonText: string;
+  isLoading?: boolean;
 }
 
-export function SubmitButton ({ buttonText, isLoading }: SubmitButtonProps) {
+export function SubmitButton({ buttonText, isLoading }: SubmitButtonProps) {
   return (
-    <button className={styles.submitButton} type='submit' disabled={isLoading}>
+    <button className={styles.submitButton} type="submit" disabled={isLoading}>
       {isLoading ? <Loader /> : buttonText}
     </button>
-  )
+  );
 }
