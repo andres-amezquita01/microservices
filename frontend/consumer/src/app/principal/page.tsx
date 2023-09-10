@@ -1,36 +1,23 @@
-'use client'
-import { Form } from "@/components/Form"
-import ButtomSocial from "@/components/ButtomSocialP/ButtomSocial"
+"use client";
+import ButtomSocial from "@/components/ButtomSocialP/ButtomSocial";
+import { signIn } from "next-auth/react";
+import SignUpWithEmailButton from "./components/SignUpWithEmailButton";
 
 function PricipalPage() {
+  const signInWithMethod = async (method: string) => {
+    signIn(method, { callbackUrl: "https://localhost:3000" });
+  };
 
-  const PrincipalSubmit = async (formData: any) => {
-    /*startLoading()
-    await authRouter({
-      endpoint: "login",
-      formData,
-      redirectRoute: "/dashboard",
-    });
-    finishLoading()
-*/
-  }
+  const submitWithEmailPassword = async () => {
+    console.log("TODO");
+  };
 
   return (
-   <>
-   <Form
-    onSubmit={PrincipalSubmit}
-    title="Streamline Your Parking Experience"
-    description="The best way to park"
-   >
-       
-       <ButtomSocial /> 
-    <Form.SubmitButton
-    buttonText="Sign up with your email"
-    //isLoading={isLoading}
-    />
-   </Form>
-   </>
-  )
+    <>
+      <ButtomSocial signInWithMethod={signInWithMethod} />
+      <SignUpWithEmailButton onSignUp={submitWithEmailPassword} />
+    </>
+  );
 }
 
-export default PricipalPage
+export default PricipalPage;

@@ -1,58 +1,50 @@
 import styles from "./style.module.css";
-import Image from "next/image";
 import Link from "next/link";
-import React from 'react';
+import React from "react";
 
-import { SiFacebook } from "react-icons/si"
+import { SiFacebook } from "react-icons/si";
 import { LuMousePointerClick } from "react-icons/lu";
 import { FcGoogle } from "react-icons/fc";
-import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 
+interface Props {
+  signInWithMethod: (label: string) => void;
+}
 
-const sidebarItems = [
+const signInItems = [
   {
     name: "Sing up with Facebook",
-    href: "/dashboard",
+    signInLabel: "facebook",
     icon: SiFacebook,
   },
   {
     name: "Sing up with Google",
-    href: "/dashboard/stats",
+    signInLabel: "google",
     icon: FcGoogle,
   },
   {
     name: "Sing up Active Directory",
-    href: "/dashboard/inventory_plus",
+    signInLabel: "azure",
     icon: LuMousePointerClick,
   },
 ];
 
-export default function ButtomSocial() {
+export default function ButtomSocial(props: Props) {
   return (
-      <div className={styles.buttom__wrapper}>
-        <div >
-          <ul>
-            {sidebarItems.map(({ name, href, icon: Icon }) => (
-                <li className={styles.sidebar__item} key={name}>
-                  <Link
-                      className={
-                         href
-                            ? styles.buttom__link_active
-                            : styles.buttom__link
-                      }
-                      href={href}
-                  >
-                    <div className={styles.buttom__icon}>
-                      <Icon />
-                    </div>
-                    <span className={styles.buttom__name}>{name}</span>
-                  </Link>
-                  
-                </li>
-            ))}
-          </ul>
-          
-        </div>
+    <div className={styles.buttom__wrapper}>
+      <div>
+        {signInItems.map(({ name, signInLabel, icon: Icon }) => (
+          <button
+            className={styles.buttom__link_active}
+            key={name}
+            onClick={() => props.signInWithMethod(signInLabel)}
+          >
+            <div className={styles.buttom__icon}>
+              <Icon />
+            </div>
+            <span className={styles.buttom__name}>{name}</span>
+          </button>
+        ))}
       </div>
+    </div>
   );
 }
