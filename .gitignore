@@ -1,1 +1,6 @@
 .terraform/
+frontend/consumer/node_modules/
+
+frontend/consumer/.next/
+
+frontend/consumer/next-env.d.ts
