@@ -54,7 +54,6 @@ val testingDependencies = Seq(
   "dev.zio" %% "zio-test"          % zioVersion % Test,
   "dev.zio" %% "zio-test-sbt"      % zioVersion % Test,
   "dev.zio" %% "zio-test-magnolia" % zioVersion % Test,
-  ("io.github.etspaceman" %% "scalacheck-faker" % "7.0.0").cross(CrossVersion.for3Use2_13)
 )
 
 val quillDependencies = Seq(
