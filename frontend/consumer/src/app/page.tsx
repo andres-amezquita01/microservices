@@ -1,5 +1,5 @@
-import PrincipalLayout from "./principal/layout";
-import PrincipalPage from "./principal/page";
+import LoginLayout from "./login/layout"
+import LoginPage from "./login/page"
 
 function Home() {
   return (
