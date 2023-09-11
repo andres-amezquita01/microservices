@@ -12,12 +12,10 @@ import roles.domain.repository._
 import roles.infrastructure.repository._
 import permissions.domain.repository.PermissionRepository
 import permissions.infrastructure.repository.PermissionRepositoryImpl
-import utils.Configuration
 import traces.domain.service.LoggingTraceService
 import traces.infrastructure.service.LoggingTraceServiceImpl
 
 trait DI:
-  Configuration.init()
   given jwtService: JwtService = new JwtServiceImpl()
   given roleRepository: RoleRepository = new RoleRepositoryImpl()
   given userRoleRepository: UserRoleRepository = new UserRoleRepositoryImpl()
