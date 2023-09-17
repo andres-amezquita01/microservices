@@ -48,10 +48,8 @@ class CreateExternalUserUseCase() (using
     )
     .mapError(removedAgent => new Throwable(s"Can't create user, reverted agent creation of ${removedAgent.id}"))
 
-    _ <- loggingTraceService.logSystemAction( 
-        SystemAction.SignUp(userName = user.username.getOrElse("Unknown"), userId = user.id.toString)
-    )
+    // _ <- loggingTraceService.logSystemAction(SystemAction.SignUp(userName = user.username.getOrElse("Unknown"), userId = user.id.toString))
   yield(
-    ResponseCreateExternalUser(username = user.username.get, agentId = agent.id.toString, userId = user.id.toString, email = agent.email)
+    ResponseCreateExternalUser(username = user.username, agentId = agent.id.toString, userId = user.id.toString, email = agent.email)
   )
   end execute

@@ -22,7 +22,7 @@ CREATE TABLE AGENTS (
   "name" TEXT NOT NULL,
   "last_name" TEXT,
   "phone" VARCHAR(30),
-  "email" VARCHAR(254) NOT NULL,
+  "email" VARCHAR(254) UNIQUE NOT NULL ,
   "created_at" TIMESTAMP NOT NULL DEFAULT (now()),
   "updated_at" TIMESTAMP NOT NULL DEFAULT (now())
 );
