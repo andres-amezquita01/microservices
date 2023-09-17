@@ -1,6 +1,7 @@
 interface InternalApiError{
   error: ErrorInformation | null,
-  code: number
+  code: number,
+  reason: any | null
 }
 
 interface ErrorInformation {
