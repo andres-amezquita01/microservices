@@ -8,7 +8,7 @@ interface Props {
 }
 
 const SessionProviderWrapper = ({ children }: Props) => {
-  return <SessionProvider> {children} </SessionProvider>;
+  return <SessionProvider>{children}</SessionProvider>
 };
 
 export default SessionProviderWrapper;

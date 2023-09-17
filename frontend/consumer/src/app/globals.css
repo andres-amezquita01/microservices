@@ -6,7 +6,7 @@
 @tailwind utilities;
 
 :root {
-  --background: #eee;
+  --background: #FFFFFF;
   --text: #000;
   --color-bg: #fff;
   --color-border: #e5e7eb;

@@ -1,5 +1,9 @@
 function PrincipalLayout({ children }: { children: React.ReactNode }) {
-  return <body className="bg-white">{children}</body>;
+  return (
+    <html>
+      <body>{children}</body>
+    </html>
+  )
 }
 
 export default PrincipalLayout;
