@@ -1,13 +1,12 @@
-interface Props {
-  onSignUp: () => void;
-}
-export default function SignUpWithEmailButton(props: Props) {
+import Link from "next/link";
+
+export default function SignUpWithEmailButton() {
   return (
-    <button
+    <Link
       className="bg-dark-blue text-white rounded-full p-4 mt-5 w-full text-xl lg:w-3/4"
-      onClick={() => props.onSignUp}
+      href="/register"
     >
-      Sign up with your email
-    </button>
+      <p className="text-center w-full">Sign up with your email</p>
+    </Link>
   );
 }
