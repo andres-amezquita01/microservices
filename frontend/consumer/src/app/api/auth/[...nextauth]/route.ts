@@ -22,7 +22,7 @@ const handler = NextAuth({
           });
 
         default: 
-          return true // Change this to work with proper backend
+          return false
       }
     }
   }

@@ -11,5 +11,8 @@ interface CreateGoogleAccountInfo {
 
 export async function CreateOrLoginGoogleAccount(info: CreateGoogleAccountInfo): Promise<boolean> {
   const createAccountResponse = await createExternalAccount(info.name, info.lastName, null, info.email, info.externalGoogleId, "Google")
-  return pipe(createAccountResponse, E.fold(() => false, () => true));
+  return pipe(
+    createAccountResponse, 
+    E.fold(() => true /* Change this in prod to a false*/, () => true)
+  );
 }
