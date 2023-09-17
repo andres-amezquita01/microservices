@@ -8,7 +8,7 @@ import { OrSeparator } from "./components/OrSeparator";
 import { PrivacyAndTerms } from "./components/PrivacyAndTerms";
 import LoginRedirector from "./components/LoginRedirector";
 
-function PricipalPage() {
+function PrincipalPage() {
   const signInWithMethod = async (method: string) => {
     signIn(method, { callbackUrl: "https://localhost:3000" });
   };
@@ -34,4 +34,4 @@ function PricipalPage() {
   );
 }
 
-export default PricipalPage;
+export default PrincipalPage;
