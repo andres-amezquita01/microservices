@@ -1,34 +1,29 @@
-package authentications.application.create_user
+package authentications.application.create_external_user
 
-import shared.application.BaseUseCase
 import authentications.domain.repository.AuthenticationRepository
-import authentications.domain.entity.User
 import agents.domain.repository.AgentRepository
-import agents.domain.entity.Agent
-import authentications.domain.service.HashService
+import traces.domain.service.LoggingTraceService
+import shared.application.BaseUseCase
+import authentications.application.create_external_user.*
 import zio.ZIO
 import java.util.UUID
-import traces.domain.service.LoggingTraceService
+import agents.domain.entity.Agent
+import authentications.domain.entity.User
 import traces.domain.entity.SystemAction
 
-class CreateUserUseCase() (using 
+class CreateExternalUserUseCase() (using 
   authenticationRepository:AuthenticationRepository, 
   agentRepository: AgentRepository,
-  hashService: HashService,
   loggingTraceService: LoggingTraceService
-) extends BaseUseCase[RequestCreateUser,ResponseCreateUser]:
+) extends BaseUseCase[RequestCreateExternalUser,ResponseCreateExternalUser]:
 
   private val EMPTY_ID = UUID.randomUUID()
-  private val INTERNAL_AUTH_SOURCE = "internal"
 
-  override def execute(request: RequestCreateUser) = for 
-    encryptedPassword <- ZIO.fromOption(hashService.hashPassword(request.password))
-      .mapError(_ => new Throwable("Invalid hash password generation"))
-
+  override def execute(request: RequestCreateExternalUser) = for 
     agent <- ZIO.attempt(agentRepository.insertAgent(
       Agent(
         id = EMPTY_ID,
-        identificationCode = request.identificationCode,
+        identificationCode = None,
         name = request.name,
         lastName= request.lastName,
         phone = request.phone,
@@ -39,12 +34,12 @@ class CreateUserUseCase() (using
     user <- ZIO.attempt(authenticationRepository.createUser(
       User (
         id = EMPTY_ID,
-        username = Some(request.userName),
-        password = Some(encryptedPassword),
-        description = request.description,
-        source = INTERNAL_AUTH_SOURCE,
+        username = None,
+        password = None,
+        description = None,
+        source = request.externalSource,
         agentId = agent.id,
-        externalId = None
+        externalId = Some(request.externalId)
       )
     ))
     .logError
@@ -57,6 +52,6 @@ class CreateUserUseCase() (using
         SystemAction.SignUp(userName = user.username.getOrElse("Unknown"), userId = user.id.toString)
     )
   yield(
-    ResponseCreateUser(username = user.username.get, agentId = agent.id.toString, userId = user.id.toString, email = agent.email)
+    ResponseCreateExternalUser(username = user.username.get, agentId = agent.id.toString, userId = user.id.toString, email = agent.email)
   )
   end execute
