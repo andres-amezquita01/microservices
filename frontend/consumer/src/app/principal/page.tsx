@@ -1,5 +1,6 @@
 "use client";
-import { signIn } from "next-auth/react";
+
+import { signIn} from "next-auth/react";
 import SignUpWithEmailButton from "./components/SignUpWithEmailButton";
 import SignInOptions from "./components/SignInOptions";
 import PrincipalLogo from "./components/PrincipalLogo";
@@ -7,10 +8,22 @@ import { SloganTitle } from "./components/SloganTitle";
 import { OrSeparator } from "./components/OrSeparator";
 import { PrivacyAndTerms } from "./components/PrivacyAndTerms";
 import LoginRedirector from "./components/LoginRedirector";
+import { useEffect } from "react";
+import { useSession} from "next-auth/react";
+import { redirect } from 'next/navigation'
+ 
 
 function PrincipalPage() {
+  const { status } = useSession();
+
+  useEffect(() => {
+    if(status == "authenticated"){
+      redirect("/home")
+    }
+  }, [status]);
+
   const signInWithMethod = async (method: string) => {
-    signIn(method, { callbackUrl: "https://localhost:3000" });
+    signIn(method, { callbackUrl: "/home" });
   };
 
   return (
