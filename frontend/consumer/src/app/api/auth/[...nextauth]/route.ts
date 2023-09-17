@@ -11,17 +11,19 @@ const handler = NextAuth({
   ],
   callbacks: {
     async signIn({user, account, profile, email, credentials}){
-      switch(account?.provider.toLowerCase()){
 
-        case "google": return await CreateOrLoginGoogleAccount( {
+      switch(account?.provider.toLowerCase()){
+        case "google": 
+          return await CreateOrLoginGoogleAccount( {
             name: user.name || "Unknown",
             lastName: profile?.name || null,
             email: user.email || profile?.email || "",
             externalGoogleId:  user.id
-        })
+          });
 
-        default: return false
-      };
+        default: 
+          return true // Change this to work with proper backend
+      }
     }
   }
 });

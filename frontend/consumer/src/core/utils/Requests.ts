@@ -6,7 +6,7 @@ interface PostParameters{
 }
 
 export async function fetchPost<Type>(parameters: PostParameters): Promise<E.Either<InternalApiError,Type>>{
-  const result = await fetch(
+  const response = await fetch(
     parameters.url, 
     {
       method: "POST",
@@ -17,7 +17,10 @@ export async function fetchPost<Type>(parameters: PostParameters): Promise<E.Eit
       body: JSON.stringify(parameters.data)
     }
   );
-  return getError(result) || E.right(result.json() as Type)
+  const responseObject = await response.json();
+  const res = getError(response) || E.right(responseObject as Type);
+  console.log(res);
+  return res
 }
 
 const getError = (response: Response): E.Either<InternalApiError, never> | null  => 
