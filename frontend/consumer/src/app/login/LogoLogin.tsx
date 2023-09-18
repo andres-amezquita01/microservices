@@ -4,7 +4,7 @@ import ButtomSocial from "@/components/ButtomSocial/ButtomSocial"
 export default function LogoLogin({width=200, height=200}: IProps) {
 
   return (
-    <div className={styles.logo}>
+    <div className={"{styles.logo} lg:flex-col"}>
       <ButtomSocial />
     </div>
   );

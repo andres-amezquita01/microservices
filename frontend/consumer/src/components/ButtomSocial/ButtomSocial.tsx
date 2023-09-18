@@ -29,7 +29,7 @@ const sidebarItems = [
 
 export default function ButtomSocial() {
   return (
-      <div className={styles.buttom__wrapper}>
+      <div className={"${styles.buttom__wrapper} sm:text-sm md:text-base lg:text-lg xl:text-xl"}>
         <div >
           <ul>
             {sidebarItems.map(({ name, href, icon: Icon }) => (

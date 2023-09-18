@@ -92,3 +92,14 @@
 /*  color: blue; !* Color de texto azul (ajusta el color según tu preferencia) *!*/
 /*  !* Otros estilos personalizados *!*/
 /*}*/
+@media (max-width: 640px) {
+  .buttom__wrapper {
+    width: 100%;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .buttom__wrapper {
+    width: 50%;
+  }
+}

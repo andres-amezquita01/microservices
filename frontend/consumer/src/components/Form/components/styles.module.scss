@@ -127,3 +127,14 @@
 
   }
 }
+@media (max-width: 640px) {
+  .inputContainer input {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .inputContainer input {
+    font-size: 14px;
+  }
+}
