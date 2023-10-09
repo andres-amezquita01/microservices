@@ -1,8 +1,7 @@
 package utils
 
 import com.google.api.core.*
-import zio.ZIO
-import zio.Task
+import zio.*
 
 extension [A] (apifuture: ApiFuture[A]){
 
@@ -13,5 +12,3 @@ extension [A] (apifuture: ApiFuture[A]){
       })
   )
 }
-  
-

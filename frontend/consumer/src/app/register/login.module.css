@@ -1,4 +1,3 @@
-
 .body {
   height: 100%;
   width: 100%;
@@ -25,7 +24,6 @@
   font-weight: bolder;
 }
 
-
 .loginContainer {
   display: flex;
   flex-direction: row-reverse;
@@ -43,7 +41,7 @@
   justify-items: center;
   align-items: center;
   height: 100vh;
-  background: #1E9189;
+  background: #1e9189;
 }
 
 .form h2 {
