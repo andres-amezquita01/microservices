@@ -1,5 +1,6 @@
 'use client'
 import { Form } from "@/components/Form"
+import LogoLogin from "./LogoLogin";
 
 function LoginPage() {
 
@@ -16,6 +17,7 @@ function LoginPage() {
 
   return (
    <>
+   <LogoLogin width={1700} height={700} />
    <Form
     onSubmit={loginSubmit}
     title="Login"
