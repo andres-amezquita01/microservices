@@ -1,58 +1,46 @@
-import styles from "./style.module.css";
-import Image from "next/image";
-import Link from "next/link";
-import React from 'react';
+import React from "react";
 
-import { SiFacebook } from "react-icons/si"
+import { SiFacebook } from "react-icons/si";
 import { LuMousePointerClick } from "react-icons/lu";
 import { FcGoogle } from "react-icons/fc";
-import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 
+interface Props {
+  logInWithMethod: (label: string) => void;
+}
 
-const sidebarItems = [
+const logInItems = [
   {
     name: "Login with Facebook",
-    href: "/dashboard",
+    logInLabel: "facebook",
     icon: SiFacebook,
   },
   {
     name: "Login with Google",
-    href: "/dashboard/stats",
+    logInLabel: "google",
     icon: FcGoogle,
   },
   {
-    name: "Login with Active Directory",
-    href: "/dashboard/inventory_plus",
+    name: "Login Active Directory",
+    logInLabel: "azure",
     icon: LuMousePointerClick,
   },
 ];
 
-export default function ButtomSocial() {
+export default function ButtomSocial(props: Props) {
   return (
-      <div className={"${styles.buttom__wrapper} sm:text-sm md:text-base lg:text-lg xl:text-xl"}>
-        <div >
-          <ul>
-            {sidebarItems.map(({ name, href, icon: Icon }) => (
-                <li className={styles.sidebar__item} key={name}>
-                  <Link
-                      className={
-                         href
-                            ? styles.buttom__link_active
-                            : styles.buttom__link
-                      }
-                      href={href}
-                  >
-                    <div className={styles.buttom__icon}>
-                      <Icon />
-                    </div>
-                    <span className={styles.buttom__name}>{name}</span>
-                  </Link>
-                  
-                </li>
-            ))}
-          </ul>
-          
-        </div>
-      </div>
+    <div className="flex-col w-full ">
+      {logInItems.map(({ name, logInLabel, icon: Icon }) => (
+        <button
+          key={name}
+          onClick={() => props.logInWithMethod(logInLabel)}
+          className="flex flex-row bg-white w-full justify-center p-3 text-xl items-center border border-black rounded-full mt-5"
+        >
+          <div className="px-4">
+            <Icon />
+          </div>
+          <span>{name}</span>
+        </button>
+      ))}
+    </div>
   );
 }
