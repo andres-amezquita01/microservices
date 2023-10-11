@@ -4,19 +4,12 @@ pipeline {
      stages {
         stage('Run unit test/coverage') {
             when { anyOf { branch 'main'; branch 'dev' } }
-            tools {
-                go 'go-1.20.3'
-            }
-            environment {
-                GO111MODULE = 'on'
-            }
             agent {
                 label "docker"
             }
             steps {
                 sh 'sbt compile coverage test'
                 sh 'sbt coverageReport'
-                sh 'go test -v -coverprofile cover.out'
             }
         }
         stage('Run sonarqube') {
@@ -44,7 +37,7 @@ pipeline {
                 label "docker"
             }
             steps {
-                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 282335569253.dkr.ecr.us-east-1.amazonaws.com'
+                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 792511625564.dkr.ecr.us-east-1.amazonaws.com'
             }
         }
         stage('Get ecr url and hash commit'){
@@ -102,28 +95,6 @@ pipeline {
                     docker push ${ECR_URL}:latest
                     docker push ${ECR_URL}:${HASH_COMMIT}
                 """
-            }
-        }
-        stage('Deploy to staging'){
-            when { anyOf { branch 'dev' } }
-            agent {
-                label "terraform"
-            }
-            steps{
-               dir("terraform/staging/"){
-                    sh """
-                    terraform init
-                    terraform apply -var='image_tag=latest' -auto-approve
-                    aws ecs update-service --region us-east-1 --cluster staging-cluster --service staging-service --task-definition 'staging-td'  --force-new-deployment
-                    """
-                    script {
-                        STAGING_DNS = sh (
-                          script: "terraform output --raw staging_lb",
-                          returnStdout: true
-                        )
-                    }
-                    sh "echo ${STAGING_DNS}"
-               }
             }
         }
         stage('Deploy to production'){
