@@ -1,3 +1,4 @@
+"use client";
 export const SloganTitle = () => {
   return (
     <div className="mt-30 lg:mt-0">

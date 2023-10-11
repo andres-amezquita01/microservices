@@ -4,7 +4,7 @@ import PrincipalPage from "./principal/page";
 function Home() {
   return (
     <PrincipalLayout>
-      <PrincipalPage />
+      <PrincipalPage/>
     </PrincipalLayout>
   );
 }

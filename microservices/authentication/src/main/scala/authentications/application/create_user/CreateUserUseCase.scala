@@ -21,9 +21,7 @@ class CreateUserUseCase() (using
   private val EMPTY_ID = UUID.randomUUID()
   private val INTERNAL_AUTH_SOURCE = "internal"
 
-  override def execute(request: RequestCreateUser) =
-
-  for 
+  override def execute(request: RequestCreateUser) = for 
     encryptedPassword <- ZIO.fromOption(hashService.hashPassword(request.password))
       .mapError(_ => new Throwable("Invalid hash password generation"))
 

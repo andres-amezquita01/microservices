@@ -10,6 +10,7 @@ import zio._
 
 import authentications.application.login_user._
 import authentications.application.create_user._
+import authentications.application.create_external_user._
 import authentications.application.get_session_information._
 import authentications.application.get_users._
 
@@ -64,6 +65,21 @@ class AuthenticationController()
 
   val createUserRoute:ZServerEndpoint[Any, Any] = createUser.zServerLogic { request => 
       CreateUserUseCase()
+        .execute(request) 
+        .mapError(throwableErrorMapper)
+  }.expose
+
+  val createExternalUser: PublicEndpoint[RequestCreateExternalUser, ErrorResponse, ResponseCreateExternalUser, Any] = 
+    endpoint
+      .in("external-signup")
+      .in(jsonBody[RequestCreateExternalUser])
+      .post
+      .errorOut(jsonBody[ErrorResponse])
+      .out(jsonBody[ResponseCreateExternalUser])
+      .expose
+
+  val createExternalUserRoute:ZServerEndpoint[Any, Any] = createExternalUser.zServerLogic { request => 
+      CreateExternalUserUseCase()
         .execute(request) 
         .mapError(throwableErrorMapper)
   }.expose
