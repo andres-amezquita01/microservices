@@ -9,7 +9,8 @@ resource "aws_launch_template" "ecs_lt" {
     vpc_security_group_ids = [aws_security_group.ecs_ec2_sg.id]
 
     iam_instance_profile {
-        name = data.aws_iam_instance_profile.ecs_ec2_ins_prof.name
+        # name = data.aws_iam_instance_profile.ecs_ec2_ins_prof.name
+        name = var.ecs_ec2_rol
     }
     block_device_mappings {
         device_name = "/dev/xvda"
