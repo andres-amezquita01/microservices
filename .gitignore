@@ -4,3 +4,6 @@ frontend/consumer/node_modules/
 frontend/consumer/.next/
 
 frontend/consumer/next-env.d.ts
+.scala-build/
+.metals/
+.vscode/settings.json

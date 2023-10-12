@@ -1,5 +1,8 @@
 {
     "workbench.activityBar.iconClickBehavior": "toggle",
     "terminal.explorerKind": "external",
-    "terminal.integrated.allowChords": false
+    "terminal.integrated.allowChords": false,
+    "files.watcherExclude": {
+        "**/target": true
+    }
 }
