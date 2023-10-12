@@ -21,7 +21,7 @@ const signInItems = [
   },
   {
     name: "Sign up Active Directory",
-    signInLabel: "azure",
+    signInLabel: "azure-ad",
     icon: LuMousePointerClick,
   },
 ];

@@ -49,3 +49,17 @@
 .form h2 {
   text-align: center; /* Centra el título horizontalmente */
 }
+
+/* Ejemplo de centrado en dispositivos móviles */
+@media (max-width: 640px) {
+  .logo {
+    margin-bottom: 1rem; /* Ajusta el margen inferior para separar el logo de otros elementos */
+  }
+  .loginContainer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+/* Otros estilos y ajustes para tamaños de pantalla más grandes */
