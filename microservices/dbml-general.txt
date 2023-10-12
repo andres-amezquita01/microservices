@@ -1,0 +1,85 @@
+Table "AGENTS" {
+  "id" UUID [pk, default: `gen_random_uuid()`]
+  "identification_code" TEXT
+  "name" TEXT [not null]
+  "last_name" TEXT
+  "phone" VARCHAR(20)
+  "email" VARCHAR(254) [not null]
+  "created_at" TIMESTAMP [not null, default: `now()`]
+  "updated_at" TIMESTAMP [not null, default: `now()`]
+}
+
+Table "ROLES" {
+  "id" INT [pk, increment]
+  "name" TEXT [not null]
+  "description" TEXT
+  "created_at" TIMESTAMP [not null, default: `now()`]
+  "updated_at" TIMESTAMP [not null, default: `now()`]
+}
+
+Table "USERS" {
+  "id" UUID [pk, default: `gen_random_uuid()`]
+  "username" TEXT [unique]
+  "password" TEXT
+  "description" TEXT
+  "source" TEXT
+  "agent_id" UUID
+  "external_id" TEXT
+  "created_at" TIMESTAMP [not null, default: `now()`]
+  "updated_at" TIMESTAMP [not null, default: `now()`]
+}
+
+Table "USER_ROLES" {
+  "role_id" INT [not null]
+  "user_id" UUID [not null]
+}
+
+Table "PERMISSIONS" {
+  "id" INT [pk, increment]
+  "name" TEXT [not null]
+  "access_module" TEXT [not null]
+  "role_id" INT [not null]
+  "created_at" TIMESTAMP [not null, default: `now()`]
+  "updated_at" TIMESTAMP [not null, default: `now()`]
+}
+
+Table "SPOT_TYPES" {
+  "id" INT [pk, increment]
+  "name" TEXT [not null]
+  "description" TEXT
+  "color" TEXT [not null]
+}
+
+Table "SPOTS" {
+  "id" INT [pk, increment]
+  "name" TEXT [not null]
+  "floor_id" INT [not null]
+  "location_x" FLOAT
+  "location_y" FLOAT
+  "spot_type_id" INT
+}
+
+Table "FLOORS" {
+  "id" INT [pk, increment]
+  "name" TEXT [not null]
+  "building_id" INT [not null]
+}
+
+Table "BUILDINGS" {
+  "id" INT [pk, increment]
+  "name" TEXT [not null]
+}
+
+Ref "fk_spot_type_spot":"SPOT_TYPES"."id" - "SPOTS"."spot_type_id" [update: no action, delete: no action]
+
+Ref "fk_spot_floor":"FLOORS"."id" - "SPOTS"."floor_id" [update: no action, delete: no action]
+
+Ref "fk_floor_building":"BUILDINGS"."id" - "FLOORS"."building_id" [update: no action, delete: no action]
+
+Ref "fk_USERS_AGENT1":"AGENTS"."id" - "USERS"."agent_id" [update: no action, delete: no action]
+
+Ref "fk_USER_ROLES_ROLES1":"ROLES"."id" < "USER_ROLES"."role_id" [update: no action, delete: no action]
+
+Ref "fk_USER_ROLES_USERS1":"USERS"."id" < "USER_ROLES"."user_id" [update: no action, delete: no action]
+
+Ref "fk_PERMISSIONS_ROLES1":"ROLES"."id" < "PERMISSIONS"."role_id" [update: no action, delete: no action]
