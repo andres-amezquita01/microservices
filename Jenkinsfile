@@ -23,6 +23,15 @@ pipeline {
                 }
             }
         }
+        stage('Run unit test/coverage frontend') {
+            when { anyOf { branch 'main'; branch 'dev' } }
+            agent {
+                label "docker"
+            }
+            steps {
+                sh 'npm run test'
+            }
+        }
         stage("Quality Gate") {
             when { anyOf { branch 'main'; branch 'dev' } }
             steps{
