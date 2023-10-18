@@ -39,3 +39,15 @@
 .form p {
   text-align: center;
 }
+@media (max-width: 640px) {
+  .form {
+    min-width: auto;
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .form {
+    min-width: 350px;
+  }
+}
