@@ -27,7 +27,7 @@ function PrincipalPage() {
   };
 
   return (
-    <div className="flex flex-row w-screen h-fill lg:h-screen">
+    <div className="flex flex-row w-screen h-fill h-screen">
       <div className="flex flex-col w-full h-fill align-center justify-center m-4 lg:m-20">
         <SloganTitle />
         <SignInOptions signInWithMethod={signInWithMethod} />

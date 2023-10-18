@@ -1,0 +1,342 @@
+[
+  {
+    "schema": null,
+    "table": "versions",
+    "constraints": [
+      {
+        "column_name": "version",
+        "constraint_type": "PRIMARY KEY"
+      }
+    ],
+    "columns": [
+      {
+        "cid": 0,
+        "name": "version",
+        "type": "INTEGER",
+        "notnull": 0,
+        "dflt_value": null,
+        "pk": 1,
+        "hidden": 0,
+        "column_name": "version",
+        "udt_name": "integer",
+        "is_nullable": "NO",
+        "is_generated": "NO"
+      },
+      {
+        "cid": 1,
+        "name": "name",
+        "type": "TEXT",
+        "notnull": 0,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "name",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "is_generated": "NO"
+      },
+      {
+        "cid": 2,
+        "name": "md5",
+        "type": "TEXT",
+        "notnull": 0,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "md5",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "is_generated": "NO"
+      },
+      {
+        "cid": 3,
+        "name": "run_at",
+        "type": "TIMESTAMP WITH TIME ZONE",
+        "notnull": 0,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "run_at",
+        "udt_name": "timestamp with time zone",
+        "is_nullable": "YES",
+        "is_generated": "NO"
+      }
+    ]
+  },
+  {
+    "schema": null,
+    "table": "SPOT_TYPES",
+    "constraints": [
+      {
+        "column_name": "id",
+        "constraint_type": "PRIMARY KEY"
+      }
+    ],
+    "columns": [
+      {
+        "cid": 0,
+        "name": "id",
+        "type": "INTEGER",
+        "notnull": 0,
+        "dflt_value": null,
+        "pk": 1,
+        "hidden": 0,
+        "column_name": "id",
+        "udt_name": "integer",
+        "is_nullable": "NO",
+        "is_generated": "NO"
+      },
+      {
+        "cid": 1,
+        "name": "name",
+        "type": "VARCHAR(250)",
+        "notnull": 1,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "name",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "is_generated": "NO"
+      },
+      {
+        "cid": 2,
+        "name": "description",
+        "type": "TEXT",
+        "notnull": 0,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "description",
+        "udt_name": "text",
+        "is_nullable": "YES",
+        "is_generated": "NO"
+      },
+      {
+        "cid": 3,
+        "name": "color",
+        "type": "VARCHAR(250)",
+        "notnull": 1,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "color",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "is_generated": "NO"
+      }
+    ]
+  },
+  {
+    "schema": null,
+    "table": "sqlite_sequence",
+    "constraints": [],
+    "columns": [
+      {
+        "cid": 0,
+        "name": "name",
+        "type": "",
+        "notnull": 0,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "name",
+        "udt_name": "",
+        "is_nullable": "YES",
+        "is_generated": "NO"
+      },
+      {
+        "cid": 1,
+        "name": "seq",
+        "type": "",
+        "notnull": 0,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "seq",
+        "udt_name": "",
+        "is_nullable": "YES",
+        "is_generated": "NO"
+      }
+    ]
+  },
+  {
+    "schema": null,
+    "table": "SPOTS",
+    "constraints": [
+      {
+        "column_name": "id",
+        "constraint_type": "PRIMARY KEY"
+      }
+    ],
+    "columns": [
+      {
+        "cid": 0,
+        "name": "id",
+        "type": "INTEGER",
+        "notnull": 0,
+        "dflt_value": null,
+        "pk": 1,
+        "hidden": 0,
+        "column_name": "id",
+        "udt_name": "integer",
+        "is_nullable": "NO",
+        "is_generated": "NO"
+      },
+      {
+        "cid": 1,
+        "name": "name",
+        "type": "VARCHAR(250)",
+        "notnull": 1,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "name",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "is_generated": "NO"
+      },
+      {
+        "cid": 2,
+        "name": "floor_id",
+        "type": "INTEGER",
+        "notnull": 1,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "floor_id",
+        "udt_name": "integer",
+        "is_nullable": "NO",
+        "is_generated": "NO"
+      },
+      {
+        "cid": 3,
+        "name": "location_x",
+        "type": "FLOAT",
+        "notnull": 0,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "location_x",
+        "udt_name": "float",
+        "is_nullable": "YES",
+        "is_generated": "NO"
+      },
+      {
+        "cid": 4,
+        "name": "location_y",
+        "type": "FLOAT",
+        "notnull": 0,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "location_y",
+        "udt_name": "float",
+        "is_nullable": "YES",
+        "is_generated": "NO"
+      },
+      {
+        "cid": 5,
+        "name": "spot_type_id",
+        "type": "INTEGER",
+        "notnull": 0,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "spot_type_id",
+        "udt_name": "integer",
+        "is_nullable": "YES",
+        "is_generated": "NO"
+      }
+    ]
+  },
+  {
+    "schema": null,
+    "table": "FLOORS",
+    "constraints": [
+      {
+        "column_name": "id",
+        "constraint_type": "PRIMARY KEY"
+      }
+    ],
+    "columns": [
+      {
+        "cid": 0,
+        "name": "id",
+        "type": "INTEGER",
+        "notnull": 0,
+        "dflt_value": null,
+        "pk": 1,
+        "hidden": 0,
+        "column_name": "id",
+        "udt_name": "integer",
+        "is_nullable": "NO",
+        "is_generated": "NO"
+      },
+      {
+        "cid": 1,
+        "name": "name",
+        "type": "VARCHAR(250)",
+        "notnull": 1,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "name",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "is_generated": "NO"
+      },
+      {
+        "cid": 2,
+        "name": "building_id",
+        "type": "INTEGER",
+        "notnull": 1,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "building_id",
+        "udt_name": "integer",
+        "is_nullable": "NO",
+        "is_generated": "NO"
+      }
+    ]
+  },
+  {
+    "schema": null,
+    "table": "BUILDINGS",
+    "constraints": [
+      {
+        "column_name": "id",
+        "constraint_type": "PRIMARY KEY"
+      }
+    ],
+    "columns": [
+      {
+        "cid": 0,
+        "name": "id",
+        "type": "INTEGER",
+        "notnull": 0,
+        "dflt_value": null,
+        "pk": 1,
+        "hidden": 0,
+        "column_name": "id",
+        "udt_name": "integer",
+        "is_nullable": "NO",
+        "is_generated": "NO"
+      },
+      {
+        "cid": 1,
+        "name": "name",
+        "type": "VARCHAR(250)",
+        "notnull": 1,
+        "dflt_value": null,
+        "pk": 0,
+        "hidden": 0,
+        "column_name": "name",
+        "udt_name": "varchar",
+        "is_nullable": "NO",
+        "is_generated": "NO"
+      }
+    ]
+  }
+]
