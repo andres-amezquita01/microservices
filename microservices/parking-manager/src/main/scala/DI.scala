@@ -2,8 +2,8 @@ import authentications.domain.service.JwtService
 import authentications.infrastructure.service.JwtServiceImpl
 import authentications.infrastructure.repository.AuthenticationRepositoryImpl
 import authentications.domain.repository.AuthenticationRepository
-import agents.infrastructure.repository.AgentRepositoryImpl
-import agents.domain.repository.AgentRepository
+import spots.infrastructure.repository.SpotRepositoryImpl
+import spots.domain.repository.SpotRepository
 import authentications.domain.service.HashService
 import authentications.infrastructure.service.HashServiceImpl
 import authorizations.infrastructure.repository.AuthorizationRepositoryImpl
@@ -17,11 +17,6 @@ import traces.infrastructure.service.LoggingTraceServiceImpl
 
 trait DI:
   given jwtService: JwtService = new JwtServiceImpl()
-  given roleRepository: RoleRepository = new RoleRepositoryImpl()
-  given userRoleRepository: UserRoleRepository = new UserRoleRepositoryImpl()
-  given permissionRepository: PermissionRepository = new PermissionRepositoryImpl()
-  given authenticationRepository: AuthenticationRepository = new AuthenticationRepositoryImpl()
-  given authorizationRepository: AuthorizationRepository = new AuthorizationRepositoryImpl()
-  given agentRepository: AgentRepository = new AgentRepositoryImpl()
+  given spotRepository: SpotRepository = new SpotRepositoryImpl()
   given hashService: HashService = new HashServiceImpl()
-  given loggingTraceService: LoggingTraceService = LoggingTraceServiceImpl
+ 
