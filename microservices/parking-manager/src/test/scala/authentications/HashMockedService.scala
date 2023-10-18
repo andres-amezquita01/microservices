@@ -1,0 +1,5 @@
+package authentications
+
+import authentications.infrastructure.service.HashServiceImpl
+
+class HashMockedService extends HashServiceImpl
