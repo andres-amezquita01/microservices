@@ -1,11 +1,11 @@
-'use client'
 import Link from "next/link";
 import React from "react";
-import { useSession} from "next-auth/react";
-
+import { useSession } from "next-auth/react";
+import { Logo } from "./Logo";
+import { User} from "./User";
 import { IoHomeOutline } from "react-icons/io5";
 import { BsCalendarDate, BsFillPinMapFill } from "react-icons/bs";
-import {BiSolidUser} from "react-icons/bi";
+import { BiSolidUser } from "react-icons/bi";
 
 const navBarItems = [
   {
@@ -20,46 +20,39 @@ const navBarItems = [
     name: "Map",
     icon: BsFillPinMapFill,
   },
-
 ];
 
-const hexagonStyle: React.CSSProperties = {
-  width: 0,
-  height: 0,
-  borderLeft: "30px solid transparent",
-  borderRight: "30px solid transparent",
-  borderBottom: "60px solid black", // Puedes cambiar el color de fondo
-  transform: "rotate(90deg)",
-};
-
-function Navbar (){
+function Navbar() {
   const { data: session, status } = useSession();
+  const iconSize = "35px"; // Tamaño de los iconos
+
   return (
-    <nav className="bg-white p-4;">
-      <div className="flex items-center justify-between">
-        <Link href="/home">
-            <div style={hexagonStyle}></div>
-        </Link>
-        {navBarItems.map(({name, icon: Icon }) => (
-          <button
-            key={name}
-            //onClick={() => props.logInWithMethod(logInLabel)}
-            className="flex  justify-center p-3 border border-black rounded-full mt-4"
-          >
-            <div className="">
-              <Icon />
-            </div>
-          </button>
-        ))}
-        <div className="flex items-center ">
-          <div className="flex  justify-center p-3 border border-black rounded-full mt-4"><BiSolidUser  /></div>
-            <Link href="/configuracion">
-              <div className="text-black mt-5 justify-center">{session?.user?.name || "No user"}</div>
-            </Link>
-            
-          </div>
+    <nav className="bg-white">
+      <div className="flex justify-content-start items-center">
+        <div>
+          <Link href="/home">
+            <Logo />
+          </Link>
+        </div>
+        <div className="flex items-center justify-left ml-12">
+          {navBarItems.map(({ name, icon: Icon }) => (
+            <button
+              key={name}
+              className="flex p-3 m-1"
+              style={{
+                fontSize: iconSize, // Tamaño de los iconos
+                marginRight: "50px",
+              }}
+            >
+              <div className="">
+                <Icon />
+              </div>
+            </button>
+          ))}
+        </div>
+        <div className="ml-auto"><User /></div>
       </div>
-    </nav>  
+    </nav>
   );
 }
 
