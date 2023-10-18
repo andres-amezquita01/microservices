@@ -11,7 +11,7 @@ class RemoveSpotUseCase (
 
   override def execute(request: RequestRemoveSpot): Task[ResponseRemoveSpot] = 
     ZIO.succeed {
-      SpotRepository.removeSpot(
+      spotRepository.removeSpot(
         UUID.fromString(request.id)
       )
     }.map(ResponseRemoveSpot.apply)

@@ -1,4 +1,4 @@
-package agents.application.get_agents
+package spots.application.get_spots
 
 import shared.requests.PaginatedRequest
 

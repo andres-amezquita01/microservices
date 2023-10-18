@@ -1,14 +1,14 @@
-package agents.application.get_agents
+package spots.application.get_spots
 
-import agents.domain.entity.Agent
+import spots.domain.entity.Spot
 import shared.responses.PaginatedResponse
 import shared.responses.Meta
 
-sealed class ResponseGetAgents (
-  data:List[Agent],
-  request: RequestGetAgents,
+sealed class ResponseGetSpots (
+  data:List[Spot],
+  request: RequestGetSpots,
   total: Long
-) extends PaginatedResponse[Agent](
+) extends PaginatedResponse[Spot](
   data,
   Meta(
     currentPage = request.page,
