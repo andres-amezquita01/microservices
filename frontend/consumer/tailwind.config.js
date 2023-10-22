@@ -25,13 +25,17 @@ module.exports = {
       'ligth-blue': '#BDE5FF',
       'white': '#FFFFFF',
       'grey': '#666666',
-      'dark-grey': '#DDDEE1'
+      'dark-grey': '#DDDEE1',
+      'light-grey': '#AAB7BE'
+      
     },
     textColor: {
       primary: '#000000',
       secondary: '#FFFFFF',
       white: '#FFFFFF',
-      black: '#000000'
+      black: '#000000',
+      darkblue: '#2957C2',
+      lightgrey: '#AAB7BE',
     }
   },
   plugins: [],
