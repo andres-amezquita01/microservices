@@ -1,15 +1,10 @@
-FROM openjdk:17-alpine as build
-
-ARG DB_URL
-ENV DB_URL $DB_URL
-ARG DB_USER
-ENV DB_USER $DB_USER
-ARG DB_PASSWORD
-ENV DB_PASSWORD $DB_PASSWORD
+FROM openjdk:17-alpine
 
 ARG SCALA_VERSION=3.3.0
 ARG SBT_VERSION=1.8.2
 ENV SCALA_HOME=/usr/share/scala
+
+EXPOSE 8090
 
 RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates && \
   apk add --no-cache bash && \
@@ -43,12 +38,5 @@ WORKDIR /root
 COPY ./ ./
 
 RUN sbt update
-RUN sbt run 
 
-# Runner Container
-FROM openjdk:17-alpine
-
-COPY --from=build target/scala-3.3.0/authentication.jar authentication.jar
-
-EXPOSE 8090
-CMD ["java", "-jar", "authentication.jar"]
+CMD ["sbt", "run"]

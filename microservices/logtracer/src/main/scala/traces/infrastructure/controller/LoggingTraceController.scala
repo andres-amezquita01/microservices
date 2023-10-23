@@ -21,7 +21,7 @@ class LoggingTraceController()(
         record => 
           for 
             savedResponse <- saveTraceUseCase.execute(record.value)
-            _ <- Console.printLine(s"Received - Key: ${record.key} Value ${record.value}" )
+            _ <- ZIO.logInfo(s"Received - Key: ${record.key} Value ${record.value}")
           yield(savedResponse)
       )
       .map(_.offset)

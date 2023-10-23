@@ -60,13 +60,6 @@ lazy val root = project
   run / fork := true,
   run / javaOptions ++= unnamedJavaOptions
 )
-.settings(
-  nativeImageOptions ++= List("--no-fallback", "--initialize-at-run-time=io.netty.channel.kqueue.KQueue,io.netty.handler.ssl.BouncyCastleAlpnSslUtils,io.netty.util.AbstractReferenceCounted,io.netty.channel.DefaultFileRegion", "--initialize-at-build-time=org.apache.logging.log4j,org.apache.logging.slf4j,org.slf4j,org.jline,net.minecrell,com.lmax.disruptor"),
-  nativeImageVersion := "22.3.1",
-  nativeImageJvm := "graalvm-java17",
-  nativeImageCommand := List("native-image")
-)
-.enablePlugins(NativeImagePlugin)
 
 assembly / assemblyMergeStrategy := {
     case path if path.contains("META-INF/services") =>
