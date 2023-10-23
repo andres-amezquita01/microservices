@@ -6,25 +6,25 @@ services:
   authentication_microservice: 
     build: microservices/authentication
     environment:
-      DB_URL: "postgresql_engine"
-      DB_USER: "postgres"
-      DB_PASSWORD: "totally_secure_password"
       KAFKA_URL: "kafka"
       KAFKA_PORT: "29092"
+      DB_URL: 'jdbc:postgresql://postgresql_engine:5432/authentication'
+      DB_USER: "postgres"
+      DB_PASSWORD: "totally_secure_password"
     ports:
       - 8090:8090
     depends_on: 
       - postgresql_engine
 
-  logtracer_microservice: 
-    build: microservices/logtracer
-    environment:
-      TOPIC_NAME: "logtrace"
-      KAFKA_URL: "kafka"
-      KAFKA_PORT: "29092"
-    depends_on: 
-      - postgresql_engine
-      - authentication_microservice
+  # logtracer_microservice: 
+  #   build: microservices/logtracer
+  #   environment:
+  #     TOPIC_NAME: "logtrace"
+  #     KAFKA_URL: "kafka"
+  #     KAFKA_PORT: "29092"
+  #   depends_on: 
+  #     - postgresql_engine
+  #     - authentication_microservice
 
   postgresql_engine:
     image: postgres

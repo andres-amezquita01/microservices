@@ -49,7 +49,7 @@ val emailDependencies = Seq(
 lazy val root = project
 .in(file("."))
 .settings(
-  name := "LogTracer Microservice",
+  name := "LogTracerMicroservice",
   version := "1.0",
 
   libraryDependencies ++= zioDependencies,
