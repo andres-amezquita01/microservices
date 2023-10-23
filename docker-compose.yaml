@@ -7,8 +7,6 @@ services:
     build: microservices/authentication
     environment:
       DB_URL: "postgresql_engine"
-      DB_PORT: "5432"
-      DB_NAME: "authentication"
       DB_USER: "postgres"
       DB_PASSWORD: "totally_secure_password"
       KAFKA_URL: "kafka"
@@ -18,13 +16,25 @@ services:
     depends_on: 
       - postgresql_engine
 
+  logtracer_microservice: 
+    build: microservices/logtracer
+    environment:
+      TOPIC_NAME: "logtrace"
+      KAFKA_URL: "kafka"
+      KAFKA_PORT: "29092"
+    depends_on: 
+      - postgresql_engine
+      - authentication_microservice
+
   postgresql_engine:
     image: postgres
     environment:
       POSTGRES_PASSWORD: totally_secure_password
+      POSTGRES_DB: authentication
     ports:
       - 5432:5432
 
+# Kafka Stuff
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
