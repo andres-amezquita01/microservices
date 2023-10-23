@@ -129,44 +129,31 @@
   },
   {
     "schema": null,
-    "table": "sqlite_sequence",
-    "constraints": [],
-    "columns": [
-      {
-        "cid": 0,
-        "name": "name",
-        "type": "",
-        "notnull": 0,
-        "dflt_value": null,
-        "pk": 0,
-        "hidden": 0,
-        "column_name": "name",
-        "udt_name": "",
-        "is_nullable": "YES",
-        "is_generated": "NO"
-      },
-      {
-        "cid": 1,
-        "name": "seq",
-        "type": "",
-        "notnull": 0,
-        "dflt_value": null,
-        "pk": 0,
-        "hidden": 0,
-        "column_name": "seq",
-        "udt_name": "",
-        "is_nullable": "YES",
-        "is_generated": "NO"
-      }
-    ]
-  },
-  {
-    "schema": null,
     "table": "SPOTS",
     "constraints": [
       {
         "column_name": "id",
         "constraint_type": "PRIMARY KEY"
+      },
+      {
+        "table_name": "SPOTS",
+        "column_name": "floor_id",
+        "constraint_type": "FOREIGN KEY",
+        "foreign_table_name": "FLOORS",
+        "foreign_column_name": "id",
+        "loweredTableWithSchemaName": "spots",
+        "foreignEntityName": "floor",
+        "entityName": "spot"
+      },
+      {
+        "table_name": "SPOTS",
+        "column_name": "spot_type_id",
+        "constraint_type": "FOREIGN KEY",
+        "foreign_table_name": "SPOT_TYPES",
+        "foreign_column_name": "id",
+        "loweredTableWithSchemaName": "spots",
+        "foreignEntityName": "spotType",
+        "entityName": "spot"
       }
     ],
     "columns": [
@@ -257,6 +244,16 @@
       {
         "column_name": "id",
         "constraint_type": "PRIMARY KEY"
+      },
+      {
+        "table_name": "FLOORS",
+        "column_name": "building_id",
+        "constraint_type": "FOREIGN KEY",
+        "foreign_table_name": "BUILDINGS",
+        "foreign_column_name": "id",
+        "loweredTableWithSchemaName": "floors",
+        "foreignEntityName": "building",
+        "entityName": "floor"
       }
     ],
     "columns": [
