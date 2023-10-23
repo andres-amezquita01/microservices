@@ -59,6 +59,7 @@ val testingDependencies = Seq(
 val quillDependencies = Seq(
   "io.getquill" %% "quill-jdbc-zio" % "4.6.0.1",
   "org.postgresql" % "postgresql" % "42.5.4",
+  "org.flywaydb" % "flyway-core" % "9.22.3"
 )
 
 val authDependencies = Seq(
