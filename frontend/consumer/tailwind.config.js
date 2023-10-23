@@ -28,6 +28,7 @@ module.exports = {
       'dark-grey': '#DDDEE1',
       'light-grey': '#AAB7BE'
       
+      
     },
     textColor: {
       primary: '#000000',

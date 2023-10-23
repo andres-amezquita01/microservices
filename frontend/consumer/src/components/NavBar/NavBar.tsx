@@ -1,11 +1,9 @@
-import Link from "next/link";
-import React from "react";
 import { useSession } from "next-auth/react";
-import { Logo } from "./Logo";
-import { User} from "./User";
-import { IoHomeOutline } from "react-icons/io5";
+import Link from "next/link";
 import { BsCalendarDate, BsFillPinMapFill } from "react-icons/bs";
-import { BiSolidUser } from "react-icons/bi";
+import { IoHomeOutline } from "react-icons/io5";
+import { Logo } from "./Logo";
+import { User } from "./User";
 
 const navBarItems = [
   {
@@ -58,3 +56,7 @@ function Navbar() {
 
 
 export default Navbar;
+interface IProps {
+  width?: number;
+  height?: number;
+}

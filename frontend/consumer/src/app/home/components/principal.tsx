@@ -1,5 +1,5 @@
-import { useSession} from "next-auth/react";
-import  Card from "../components/cards";
+import { useSession } from "next-auth/react";
+import Card from "../components/cards";
 
 function principal (){
     const { data: session } = useSession();
@@ -66,7 +66,7 @@ function principal (){
                 <Card
                     title="Reserve"
                     description="Make your reservation."
-                    href="/home"
+                    href="/reserve"
                 />
                 <Card
                     title="Search"
@@ -81,3 +81,7 @@ function principal (){
 }
 
 export default principal;
+interface IProps {
+    width?: number;
+    height?: number;
+}
