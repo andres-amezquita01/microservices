@@ -1,3 +1,4 @@
-
--- Add SQL in this file to drop the database tables 
-DROP TABLE movies;
+DROP TABLE SPOT_TYPES;
+DROP TABLE SPOTS;
+DROP TABLE FLOORS;
+DROP TABLE BUILDINGS;

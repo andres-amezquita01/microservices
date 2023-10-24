@@ -39,4 +39,4 @@ COPY ./ ./
 
 RUN sbt update
 
-ENTRYPOINT ["sbt", "run"]
+CMD ["sbt", "run"]

@@ -33,16 +33,17 @@ object LoggingTraceServiceImpl extends LoggingTraceService:
       )
     )
 
-  override def logSystemAction(systemAction: SystemAction): Task[String] = 
+  override def logSystemAction(systemAction: SystemAction): Task[String]  = 
     for
       sendMetaData <- sendLogginTraceSystemAction(systemAction)
-        .timeout(Duration(1000, TimeUnit.MILLISECONDS))
-        .map(_ => "Sended logtrace")
+        .provide(loggingLayer)
+        .timeout(2.seconds)
+        .map(d => d.toString)
         .orElse(ZIO.succeed("Can't send data to logtracer") )
       _ <- ZIO.logInfo(sendMetaData)
     yield (sendMetaData)
 
-  private def sendLogginTraceSystemAction(systemAction: SystemAction): Task[RecordMetadata] = 
+  private def sendLogginTraceSystemAction(systemAction: SystemAction): RIO[Producer, RecordMetadata] = 
     for 
       loggingTrace <- ZIO.attempt {
         systemAction match
@@ -70,5 +71,5 @@ object LoggingTraceServiceImpl extends LoggingTraceService:
         value = loggingTrace.asJson.toString,
         keySerializer = Serde.long,
         valueSerializer = Serde.string
-      ).provideLayer(loggingLayer)
+      )
     yield(result)
