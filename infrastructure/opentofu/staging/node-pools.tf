@@ -5,7 +5,7 @@ resource "google_service_account" "kubernetes" {
 resource "google_container_node_pool" "general" {
   name = "general"
   cluster = google_container_cluster.primary.id
-  node_count = 1
+  node_count = 4
 
   management {
     auto_repair = true
@@ -13,7 +13,7 @@ resource "google_container_node_pool" "general" {
   }
   node_config {
     preemptible = false
-    machine_type = "e2-micro"
+    machine_type = "e2-small"
 
     labels = {
       role = "general"
