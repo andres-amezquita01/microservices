@@ -26,9 +26,9 @@ module.exports = {
       'white': '#FFFFFF',
       'grey': '#666666',
       'dark-grey': '#DDDEE1',
-      'light-grey': '#AAB7BE'
+      'light-grey': '#AAB7BE',
       
-      
+      'red': '#EB0C0C'
     },
     textColor: {
       primary: '#000000',
