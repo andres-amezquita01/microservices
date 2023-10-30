@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.26.1 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: parking-manager-microservice
+  name: parking-manager-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: parking-manager-microservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml
+        kompose.version: 1.26.1 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: parking-manager-microservice
+    spec:
+      containers:
+        - image: parking-manager-microservice
+          name: parking_manager_microservice
+          ports:
+            - containerPort: 3042
+          resources: {}
+      restartPolicy: Always
+status: {}

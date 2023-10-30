@@ -9,19 +9,21 @@ const navBarItems = [
   {
     name: "Home",
     icon: IoHomeOutline,
+    href: "/home",
   },
   {
     name: "Calendar",
     icon: BsCalendarDate,
+    href: "/calendar",
   },
   {
     name: "Map",
     icon: BsFillPinMapFill,
+    href: "/home",
   },
 ];
 
 function Navbar() {
-  const { data: session, status } = useSession();
   const iconSize = "35px"; // Tamaño de los iconos
 
   return (
@@ -33,9 +35,9 @@ function Navbar() {
           </Link>
         </div>
         <div className="flex items-center justify-left ml-12">
-          {navBarItems.map(({ name, icon: Icon }) => (
-            <button
-              key={name}
+          {navBarItems.map(({ name, icon: Icon, href }) => (
+            <Link
+              key={name} href={href}
               className="flex p-3 m-1"
               style={{
                 fontSize: iconSize, // Tamaño de los iconos
@@ -45,7 +47,7 @@ function Navbar() {
               <div className="">
                 <Icon />
               </div>
-            </button>
+            </Link>
           ))}
         </div>
         <div className="ml-auto"><User /></div>

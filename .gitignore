@@ -7,3 +7,4 @@ frontend/consumer/next-env.d.ts
 .scala-build/
 .metals/
 .vscode/settings.json
+.idea

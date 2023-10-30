@@ -61,7 +61,7 @@ function principal (){
                 <Card
                     title="Calendar"
                     description="Check date on the calendar."
-                    href="/home"
+                    href="/calendar"
                 />
                 <Card
                     title="Reserve"

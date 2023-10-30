@@ -20,6 +20,12 @@ import sttp.tapir.server.interceptor.cors.CORSInterceptor
 import agents.infrastructure.controller.AgentController
 import roles.infrastructure.controller.RoleController
 import permissions.infrastructure.controller.PermissionController
+import shared.db.DbMigrator
+import javax.sql.DataSource
+import io.getquill.JdbcContextConfig
+import io.getquill.jdbczio.Quill
+import io.getquill.util.LoadConfig
+import com.zaxxer.hikari.HikariConfig
 
 object Main extends ZIOAppDefault with DI:
 
@@ -42,10 +48,44 @@ object Main extends ZIOAppDefault with DI:
         OpenAPIGenerator().getDocs()
       )
 
-  override def run: URIO[Any, ExitCode] =
-    Server
+  val apiServer = Server
       .serve(routes.withDefaultErrorResponse)
       .provide(
           Server.defaultWithPort(8090)
       ).exitCode
-  end run
+
+  private def availableSourceSchedule(sourceName: String, sourcePath: Option[String] = None) = Schedule
+    .fixed(2000.milliseconds)
+    .tapOutput(o =>
+      ZIO.logInfo(
+        s"Waiting for $sourceName to be available ${sourcePath.map(path => s"at ${path}").getOrElse("")}, retry count: $o"
+      )
+    )
+
+  private val jdbcContextLayer: TaskLayer[JdbcContextConfig] = for {
+    res <- ZLayer {
+      ZIO
+        .attempt(LoadConfig("live-database"))
+        .map(JdbcContextConfig.apply)
+        .tap(cfg => ZIO.attempt(new HikariConfig(cfg.configProperties).validate()))
+    }
+    _ <- ZLayer.fromZIO(ZIO.logInfo("DATA: " + res.get.toString))
+  } yield (res)
+
+  private val dataSourceLayer: RLayer[JdbcContextConfig, DataSource] = ZLayer(
+    ZIO.service[JdbcContextConfig]
+  ).flatMap { env =>
+      Quill.DataSource.fromJdbcConfig(env.get).retry(availableSourceSchedule("Database"))
+  }
+
+  val main = for{
+      migrator <- ZIO.service[DbMigrator]
+      _ <- migrator.migrate()
+      server <- apiServer
+      _ <- ZIO.never
+  } yield()
+
+  override def run: URIO[Any, ExitCode] = for {
+    res <- main.provide(DbMigrator.live, dataSourceLayer, jdbcContextLayer).orDie
+    exitCode <- ZIO.succeed(ExitCode.success)
+  } yield exitCode

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.26.1 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: authentication-microservice
+  name: authentication-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: authentication-microservice
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml
+        kompose.version: 1.26.1 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/internal-network: "true"
+        io.kompose.service: authentication-microservice
+    spec:
+      containers:
+        - env:
+            - name: DB_PASSWORD
+              value: totally_secure_password
+            - name: DB_URL
+              value: jdbc:postgresql://postgresql_engine:5432/authentication
+            - name: DB_USER
+              value: postgres
+            - name: KAFKA_PORT
+              value: "29092"
+            - name: KAFKA_URL
+              value: kafka_engine
+            - name: TOPIC_NAME
+              value: logtrace
+          image: authentication-microservice
+          name: authentication_microservice
+          ports:
+            - containerPort: 8090
+          resources: {}
+      restartPolicy: Always
+status: {}
