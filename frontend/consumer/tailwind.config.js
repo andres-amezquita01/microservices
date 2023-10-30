@@ -28,7 +28,7 @@ module.exports = {
       'dark-grey': '#DDDEE1',
       'light-grey': '#AAB7BE',
       
-      'red': '#EB0C0C'
+      
     },
     textColor: {
       primary: '#000000',
