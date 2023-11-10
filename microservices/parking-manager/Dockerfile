@@ -1,9 +1,10 @@
-FROM node:18-alpine
-WORKDIR /usr/src/app
+FROM platformatic/platformatic:latest
+
+USER root
+
 COPY . .
-RUN npm install
-COPY . .
+
 EXPOSE 3042
 
-RUN npx platformatic db migrations apply
-CMD [ "npm", "start" ]
+RUN platformatic db migrations apply
+CMD [ "platformatic","db", "start" ]

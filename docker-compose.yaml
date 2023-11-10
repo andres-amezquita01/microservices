@@ -31,9 +31,9 @@ services:
       - kafka_engine
 
   parking_manager_microservice: 
-    build: microservices/parking-manager
-    ports:
-      - 3042:3042
+   build: microservices/parking-manager
+   ports:
+     - 3042:3042
 
   postgresql_engine:
     image: postgres
