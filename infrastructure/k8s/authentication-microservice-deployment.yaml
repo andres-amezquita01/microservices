@@ -38,8 +38,8 @@ spec:
               value: kafka_engine
             - name: TOPIC_NAME
               value: logtrace
-          image: authentication-microservice
-          name: authentication_microservice
+          image: us-east1-docker.pkg.dev/nojipiz-corp-infrastructure/microservices-workshop/authentication_microservice:latest
+          name: authentication-microservice
           ports:
             - containerPort: 8090
           resources: {}

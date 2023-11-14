@@ -7,7 +7,7 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: kafka-engine
-  name: kafka_engine
+  name: kafka-engine
 spec:
   ports:
     - name: "29092"

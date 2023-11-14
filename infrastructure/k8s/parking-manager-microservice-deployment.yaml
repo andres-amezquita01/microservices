@@ -24,8 +24,8 @@ spec:
         io.kompose.service: parking-manager-microservice
     spec:
       containers:
-        - image: parking-manager-microservice
-          name: parking_manager_microservice
+        - image: us-east1-docker.pkg.dev/nojipiz-corp-infrastructure/microservices-workshop/parking_manager_microservice
+          name: parking-manager-microservice
           ports:
             - containerPort: 3042
           resources: {}

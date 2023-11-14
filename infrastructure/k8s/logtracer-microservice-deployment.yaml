@@ -32,8 +32,8 @@ spec:
               value: kafka_engine
             - name: TOPIC_NAME
               value: logtrace
-          image: logtracer-microservice
-          name: logtracer_microservice
+          image: us-east1-docker.pkg.dev/nojipiz-corp-infrastructure/microservices-workshop/logtracer_microservice
+          name: logtracer-microservice
           resources: {}
       restartPolicy: Always
 status: {}

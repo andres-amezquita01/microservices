@@ -42,6 +42,6 @@ spec:
             - containerPort: 29092
             - containerPort: 9092
           resources: {}
-      hostname: kafka_engine
+      hostname: kafka-engine
       restartPolicy: Always
 status: {}

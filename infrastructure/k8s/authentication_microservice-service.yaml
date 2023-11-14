@@ -7,7 +7,7 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: authentication-microservice
-  name: authentication_microservice
+  name: authentication-microservice
 spec:
   ports:
     - name: "8090"
