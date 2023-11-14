@@ -1,0 +1,20 @@
+CREATE TABLE `parking_access` (
+  `id` integer,
+  `chek_in` timestamp,
+  `check_out` timestamp,
+  `name` VARCHAR(250),
+  `last_name` VARCHAR(250),
+  `phone` VARCHAR(250),
+  `email` VARCHAR(250),
+  `spot_id` integer,
+  `spot_name` VARCHAR(250),
+  `spot_floor_id` integer,
+  `spot_location_x` FLOAT,
+  `spot_location_y` FLOAT,
+  `spot_type_id` integer,
+  `spot_type_name` VARCHAR(250),
+  `floor_id` integer,
+  `floor_name` VARCHAR(250),
+  `building_id` integer,
+  `building_name` VARCHAR(250)
+);
