@@ -29,7 +29,7 @@ spec:
             - name: KAFKA_PORT
               value: "29092"
             - name: KAFKA_URL
-              value: kafka_engine
+              value: kafka-engine
             - name: TOPIC_NAME
               value: logtrace
           image: us-east1-docker.pkg.dev/nojipiz-corp-infrastructure/microservices-workshop/logtracer_microservice

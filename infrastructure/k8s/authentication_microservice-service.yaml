@@ -9,6 +9,7 @@ metadata:
     io.kompose.service: authentication-microservice
   name: authentication-microservice
 spec:
+  type: LoadBalancer 
   ports:
     - name: "8090"
       port: 8090

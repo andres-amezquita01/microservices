@@ -27,7 +27,7 @@ spec:
       containers:
         - env:
             - name: KAFKA_ADVERTISED_LISTENERS
-              value: PLAINTEXT://kafka_engine:29092,PLAINTEXT_HOST://localhost:9092
+              value: PLAINTEXT://kafka-engine:29092,PLAINTEXT_HOST://localhost:9092
             - name: KAFKA_BROKER_ID
               value: "1"
             - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP

@@ -9,6 +9,7 @@ metadata:
     io.kompose.service: parking-manager-microservice
   name: parking-manager-microservice
 spec:
+  type: LoadBalancer 
   ports:
     - name: "3042"
       port: 3042
