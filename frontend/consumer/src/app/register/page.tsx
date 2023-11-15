@@ -1,41 +1,28 @@
 "use client";
 import { Form } from "@/components/HeaderRegister";
-import axios from 'axios';
+import { useRouter } from 'next/navigation'
 
-// Definir la interfaz basada en los campos de tu formulario
-interface IFormInput {
-  firstName: string;
-  lastName: string;
-  identificationCode: string;
-  phoneNumber: string;
-  userName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
 
 function RegisterPage() {
-  const RegisterSubmit = async (formData: IFormInput) => {
-    try {
-      const response = await axios.post('/api/signup', formData);
-      console.log('Registro exitoso', response.data);
-      
-    } catch (error) {
-      console.error('Error en el registro:', error);
-      
-    }
-  };
+  const router = useRouter();
+  const RegisterSubmit = async (formData: any) => {
+    console.log(formData);
 
-  const handleFormSubmit = async (values: IFormInput) => {
-    await RegisterSubmit(values);
-  };
-  
-  
-
+    await fetch("http://35.227.37.171:8090/signup", {
+      method: 'POST',
+      body: JSON.stringify(formData)
+    }).then( res => {
+      if(res.status == 200){
+        router.push('/login')
+      } else {
+        alert(res.json())
+      }
+    })
+  }
   return (
     <div className="container mx-auto px-4" datatype="RegisterPage">
       <Form
-        onSubmit={handleFormSubmit} 
+        onSubmit={RegisterSubmit}
         title="Register"
         description="Don’t have an account?"
       >
@@ -49,7 +36,7 @@ function RegisterPage() {
           {/* Columna izquierda */}
           <div className="w-full md:w-5/12 space-y-4 md:pr-4">
             <Form.Input
-              name="fistName"
+              name="name"
               label="First Name"
               placeholder="First Name"
             />
@@ -64,7 +51,7 @@ function RegisterPage() {
               placeholder="Enter your Identification code"
             />
             <Form.Input
-              name="phoneNumber"
+              name="phone"
               label="Phone Number"
               placeholder="Enter your phone number"
             />
@@ -84,8 +71,8 @@ function RegisterPage() {
             />
             <Form.Input
               placeholder="Choose a password"
-              label="Password"
-              name="Password"
+              label="password"
+              name="password"
               type="password"
             />
             <Form.Input

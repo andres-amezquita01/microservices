@@ -1,19 +1,35 @@
 'use client'
 import { Form } from "@/components/Form"
 import LogoLogin from "./LogoLogin";
+import { useRouter } from 'next/navigation';
 
 function LoginPage() {
 
-  const loginSubmit = async (formData: any) => {
-    /*startLoading()
-    await authRouter({
-      endpoint: "login",
-      formData,
-      redirectRoute: "/dashboard",
-    });
-    finishLoading()
-*/
-  }
+  const router = useRouter()
+  const loginSubmit = async (formData:any) => {
+    try {
+      const response = await fetch('http://35.227.37.171:8090/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          usernameOrEmail: formData.email,
+          password: formData.Password,
+        }),
+      });
+
+      if (!response.ok) {
+        alert(response)
+      }
+
+      // Manejar la respuesta exitosa según tus necesidades
+      // Puedes redirigir al usuario a otra página, por ejemplo:
+      router.push('/home');
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   return (
    <>

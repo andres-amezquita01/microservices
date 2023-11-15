@@ -1,11 +1,15 @@
 import { useSession } from "next-auth/react";
 import Card from "../components/cards";
 
+
 function principal (){
     const { data: session } = useSession();
+    console.log("Session:", session); // Agrega esta línea para depurar
+
+    const userName = session?.user?.name || session?.user?.email || "No user"
     return(
         <div>
-            <div className="font-bold text-4xl m-4">Hello {session?.user?.name || "No user"} !</div>
+            <div className="font-bold text-4xl m-4">Hello {userName} !</div>
             <div className="font-bold text-2xl ml-16 m-3">Your bay number is</div>
             <div className="text-right mr-20">
                 <div className="font-bold text-4xl mr-20"> -- : -- am</div>

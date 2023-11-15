@@ -4,40 +4,47 @@ import { BiSolidUser } from "react-icons/bi";
 import { useSession, signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 
-
-
-function classNames(...classes: any[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export function User() {
+
   const { data: session } = useSession();
-  const iconSize = "35px"; 
-  
+  const [name, setName] = useState(null);
+  const iconSize = "35px";
+
   const close = () => {
     signOut({redirect:true, callbackUrl: "/"})
   }
-  
-/*
-  return (
-    <div className="flex items-center mr-4">
-      <div className="p-1 border-4 border-solid border-dark-blue rounded-full m-1">
-        <BiSolidUser color="darkblue" style={{ fontSize: iconSize }} />
-      </div>
-      <div className="font-semi-bold text-darkblue" >
-          {session?.user?.name || "No user"}
-          <p className="text-black">Admin</p>
-      </div>
-      
-    </div>
-  );
-  
-}
-*/
 
+  useEffect(() => {
+    const fetchSessionInfo = async () => {
+      try {
+        const response = await fetch('http://35.227.37.171:8090/session-info', {
+          method: 'GET'
+        });
 
+        if (!response.ok) {
+          throw new Error('Failed to fetch session info');
+        }
+        const data = await response.json();
+        const userName = data.name; // Extraer el nombre del usuario de la respuesta
+        setName(userName);
+  
+        // Agrega un console.log para ver el nombre obtenido
+        console.log('Nombre del usuario obtenido:', userName);
+      } catch (error) {
+        console.error('Error fetching session info:', error);
+      }
+    };
+  
+    if (session) {
+      // Agrega un console.log para verificar que haya una sesión
+      console.log('Sesión disponible. Iniciando solicitud a la API...');
+      fetchSessionInfo();
+    }
+  }, [session]);
+    
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -47,7 +54,7 @@ export function User() {
           </div>
           <div>
             <div className="mt-2 font-semi-bold text-darkblue justify-content-center " >
-              {session?.user?.name || "No user"}
+              {name || session?.user?.name || "No user"}
               <p className="text-black">Admin</p>
             </div>
           </div>
