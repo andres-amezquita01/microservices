@@ -21,7 +21,7 @@ function Principal() {
         />
         <Card
           title="Time elapsed"
-          description="1 mins"
+          description="All Day"
           href="/doneReserve"
         />
       </div>
