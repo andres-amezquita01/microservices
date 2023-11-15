@@ -5,7 +5,7 @@ function principal (){
     
     return(
         <div>
-            <div className="font text-4xl m-4">Building --, Floor  --</div>
+            <div className="font text-4xl m-4">Building Riverside Plaza, Floor  2</div>
             <div className="text-right mr-20">
                 
             </div>
