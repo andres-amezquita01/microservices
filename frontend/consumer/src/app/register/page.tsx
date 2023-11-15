@@ -1,13 +1,41 @@
 "use client";
 import { Form } from "@/components/HeaderRegister";
+import axios from 'axios';
+
+// Definir la interfaz basada en los campos de tu formulario
+interface IFormInput {
+  firstName: string;
+  lastName: string;
+  identificationCode: string;
+  phoneNumber: string;
+  userName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 function RegisterPage() {
-  const RegisterSubmit = async (formData: any) => {};
+  const RegisterSubmit = async (formData: IFormInput) => {
+    try {
+      const response = await axios.post('/api/signup', formData);
+      console.log('Registro exitoso', response.data);
+      
+    } catch (error) {
+      console.error('Error en el registro:', error);
+      
+    }
+  };
+
+  const handleFormSubmit = async (values: IFormInput) => {
+    await RegisterSubmit(values);
+  };
+  
+  
 
   return (
     <div className="container mx-auto px-4" datatype="RegisterPage">
       <Form
-        onSubmit={RegisterSubmit}
+        onSubmit={handleFormSubmit} 
         title="Register"
         description="Don’t have an account?"
       >
