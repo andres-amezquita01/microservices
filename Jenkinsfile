@@ -106,13 +106,13 @@ pipeline {
                 """
             }
         }
-        stage('Deploy to production'){
+        stage('Deploy to staging'){
             when { anyOf { branch 'main' } }
             agent {
                 label "tofu"
             }
             steps{
-               dir("tofu/production/"){
+               dir("opentofu/staging/"){
                     sh """
                     tofu init
                     tofu apply -var='image_tag=latest' -auto-approve
