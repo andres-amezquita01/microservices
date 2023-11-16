@@ -52,14 +52,14 @@ pipeline {
         stage('Get artifac registry url and hash commit'){
             when { anyOf { branch 'dev' } }
             agent {
-                label "terraform"
+                label "tofu"
             }
             steps{
-                dir("terraform/global"){
-                    sh 'terraform init'
+                dir("tofu/global"){
+                    sh 'tofu init'
                      script {
                         ARTIFACT_URL = sh (
-                          script: "terraform output --raw artifact_repository_url",
+                          script: "tofu output --raw artifact_repository_url",
                           returnStdout: true
                         )
                       }
@@ -109,17 +109,17 @@ pipeline {
         stage('Deploy to production'){
             when { anyOf { branch 'main' } }
             agent {
-                label "terraform"
+                label "tofu"
             }
             steps{
-               dir("terraform/production/"){
+               dir("tofu/production/"){
                     sh """
-                    terraform init
-                    terraform apply -var='image_tag=latest' -auto-approve
+                    tofu init
+                    tofu apply -var='image_tag=latest' -auto-approve
                     """
                     script {
                         PRODUCTION_DNS = sh (
-                          script: "terraform output --raw production_lb",
+                          script: "tofu output --raw production_lb",
                           returnStdout: true
                         )
                     }
