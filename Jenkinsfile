@@ -46,10 +46,10 @@ pipeline {
                 label "docker"
             }
             steps {
-                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 792511625564.dkr.ecr.us-east-1.amazonaws.com'
+                sh 'gcp artifact-registry get-login-password --region | docker login --username GCP --password-stdin 792511625564.dkr.gcp.us.com'
             }
         }
-        stage('Get ecr url and hash commit'){
+        stage('Get artifac registry url and hash commit'){
             when { anyOf { branch 'dev' } }
             agent {
                 label "terraform"
@@ -58,8 +58,8 @@ pipeline {
                 dir("terraform/global"){
                     sh 'terraform init'
                      script {
-                        ECR_URL = sh (
-                          script: "terraform output --raw ecr_repository_url",
+                        ARTIFACT_URL = sh (
+                          script: "terraform output --raw artifact_repository_url",
                           returnStdout: true
                         )
                       }
@@ -69,7 +69,7 @@ pipeline {
                           returnStdout: true
                         )
                       }
-                    sh "echo ${ECR_URL}"
+                    sh "echo ${ARTIFACT_URL}"
                     sh "echo ${HASH_COMMIT}"
                 }
             }
@@ -80,7 +80,7 @@ pipeline {
                 label "docker"
             }
             steps{
-                sh "docker build -t  ${ECR_URL} . --no-cache"
+                sh "docker build -t  ${ARTIFACT_URL} . --no-cache"
             }
         }
         stage('Tag image'){
@@ -90,7 +90,7 @@ pipeline {
             }
             steps{
                 sh """
-                   docker tag  ${ECR_URL}:latest ${ECR_URL}:${HASH_COMMIT}
+                   docker tag  ${ARTIFACT_URL}:latest ${ARTIFACT_URL}:${HASH_COMMIT}
                 """
             }
         }
@@ -101,8 +101,8 @@ pipeline {
             }
             steps{
                 sh """
-                    docker push ${ECR_URL}:latest
-                    docker push ${ECR_URL}:${HASH_COMMIT}
+                    docker push ${ARTIFACT_URL}:latest
+                    docker push ${ARTIFACT_URL}:${HASH_COMMIT}
                 """
             }
         }
@@ -116,7 +116,6 @@ pipeline {
                     sh """
                     terraform init
                     terraform apply -var='image_tag=latest' -auto-approve
-                    aws ecs update-service --region us-east-1 --cluster production-cluster --service production-service --task-definition 'production-td'  --force-new-deployment
                     """
                     script {
                         PRODUCTION_DNS = sh (
