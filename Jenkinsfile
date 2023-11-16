@@ -107,7 +107,7 @@ pipeline {
             }
         }
         stage('Deploy to staging'){
-            when { anyOf { branch 'main' } }
+            when { anyOf { branch 'dev' } }
             agent {
                 label "tofu"
             }
